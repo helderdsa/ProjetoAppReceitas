@@ -2,6 +2,13 @@ import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Switch } from 'react-router-dom';
+import Login from './pages/Login';
+import Recipes from './pages/Recipes';
+import RecipeDetails from './pages/RecipeDetails';
+import RecipeInProgress from './pages/RecipeInProgress';
+import DoneRecipe from './pages/DoneRecipe';
+import FavoriteRecipes from './pages/FavoriteRecipes';
+import Profile from './pages/Profile';
 
 function App() {
   return (
