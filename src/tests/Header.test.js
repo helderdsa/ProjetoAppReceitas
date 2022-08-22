@@ -1,4 +1,4 @@
-// import React from 'react';
+import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/RenderWithRouter';
@@ -7,12 +7,12 @@ import App from '../App';
 const headerTitleTestId = 'page-title';
 const profileIconTestId = 'profile-top-btn';
 const searchIconTestId = 'search-top-btn';
-const profileIconSrc = 'src/images/profileIcon.svg';
-const searchIconSrc = 'src/images/searchIcon.svg';
+const profileIconSrc = 'profileIcon.svg';
+const searchIconSrc = 'searchIcon.svg';
 
 describe('Foods and Drinks Header component tests', () => {
-  test('foods page header test', () => {
-    const { history } = renderWithRouter(App);
+  it('foods page header test', () => {
+    const { history } = renderWithRouter(<App />);
     history.push('/foods');
 
     const headerTitle = screen.getByTestId(headerTitleTestId);
@@ -26,11 +26,11 @@ describe('Foods and Drinks Header component tests', () => {
     expect(profileIcon).toHaveAttribute('src', profileIconSrc);
     expect(searchIcon).toHaveAttribute('src', searchIconSrc);
 
-    expect(headerTitle.innerHTML).toBe(/Foods/i);
+    expect(headerTitle.innerHTML).toBe('Foods');
   });
 
-  test('drinks page header test', () => {
-    const { history } = renderWithRouter(App);
+  it('drinks page header test', () => {
+    const { history } = renderWithRouter(<App />);
     history.push('/drinks');
 
     const headerTitle = screen.getByTestId(headerTitleTestId);
@@ -44,37 +44,64 @@ describe('Foods and Drinks Header component tests', () => {
     expect(profileIcon).toHaveAttribute('src', profileIconSrc);
     expect(searchIcon).toHaveAttribute('src', searchIconSrc);
 
-    expect(headerTitle.innerHTML).toBe(/Drinks/i);
+    expect(headerTitle.innerHTML).toBe('Drinks');
   });
 });
 
 describe('Profile Header Tests', () => {
-  test('profile page header test', () => {
-    const { history } = renderWithRouter(App);
+  it('profile page header test', () => {
+    const { history } = renderWithRouter(<App />);
     history.push('/foods');
     expect(history.location.pathname).toBe('/foods');
-
-    const headerTitle = screen.getByTestId(headerTitleTestId);
     const profileIcon = screen.getByTestId(profileIconTestId);
 
     userEvent.click(profileIcon);
 
     expect(history.location.pathname).toBe('/profile');
+    const headerTitle = screen.getByTestId(headerTitleTestId);
     expect(headerTitle).toBeInTheDocument();
-    expect(profileIcon).toBeInTheDocument();
-    expect(headerTitle.innerHTML).toBe(/Profile/i);
-    expect(screen.getByTestId(searchIconTestId)).not.toBeInTheDocument();
+    expect(screen.getByTestId(profileIconTestId)).toBeInTheDocument();
+    expect(headerTitle.innerHTML).toBe('Profile');
+    expect(screen.queryByTestId(searchIconTestId)).not.toBeInTheDocument();
+  });
+});
+
+describe('Done recipes Header Tests', () => {
+  it('Done recipes page header test', () => {
+    const { history } = renderWithRouter(<App />);
+    history.push('/done-recipes');
+
+    const headerTitle = screen.getByTestId(headerTitleTestId);
+    expect(headerTitle).toBeInTheDocument();
+    expect(screen.getByTestId(profileIconTestId)).toBeInTheDocument();
+    expect(headerTitle.innerHTML).toBe('Done Recipes');
+    expect(screen.queryByTestId(searchIconTestId)).not.toBeInTheDocument();
+  });
+});
+
+describe('Favorite Recipes Header Tests', () => {
+  it('Favorite Recipes page header test', () => {
+    const { history } = renderWithRouter(<App />);
+    history.push('/favorite-recipes');
+
+    const headerTitle = screen.getByTestId(headerTitleTestId);
+    expect(headerTitle).toBeInTheDocument();
+    expect(screen.getByTestId(profileIconTestId)).toBeInTheDocument();
+    expect(headerTitle.innerHTML).toBe('Favorite Recipes');
+    expect(screen.queryByTestId(searchIconTestId)).not.toBeInTheDocument();
   });
 });
 
 describe('Search button mechanism test', () => {
-  const { history } = renderWithRouter(App);
-  history.push('/foods');
+  it('', () => {
+    const { history } = renderWithRouter(<App />);
+    history.push('/foods');
 
-  const searchIcon = screen.getByTestId(searchIconTestId);
-  userEvent.click(searchIcon);
-  const searchBar = screen.getByTestId('search-input');
-  expect(searchBar).toBeInTheDocument();
-  userEvent.click(searchIcon);
-  expect(screen.getByTestId('search-input')).not.toBeInTheDocument();
+    const searchIcon = screen.getByTestId(searchIconTestId);
+    userEvent.click(searchIcon);
+    const searchBar = screen.getByTestId('search-input');
+    expect(searchBar).toBeInTheDocument();
+    userEvent.click(searchIcon);
+    expect(screen.queryByTestId('search-input')).not.toBeInTheDocument();
+  });
 });

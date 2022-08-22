@@ -22,7 +22,8 @@ function Header() {
     case '/favorite-recipes':
       return 'Favorite Recipes';
     default:
-      break;
+      return 'oi';
+      // break;
     }
   };
 
