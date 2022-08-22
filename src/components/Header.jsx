@@ -26,12 +26,16 @@ function Header() {
 
   return (
     <header>
-      <img
-        src={ profileIcon }
-        alt="profile icon"
-        data-testid="profile-top-btn"
-      // onClick={ }
-      />
+      <button
+        type="button"
+        onClick={ () => history.push('/profile') }
+      >
+        <img
+          src={ profileIcon }
+          alt="profile icon"
+          data-testid="profile-top-btn"
+        />
+      </button>
 
       <h1 data-testid="page-title">
         {
