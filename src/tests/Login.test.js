@@ -6,15 +6,15 @@ import renderWithRouter from './helpers/RenderWithRouter';
 import App from '../App';
 
 describe('Login page test', () => {
-  const passwordTestId = 'password-input';
-  const emailTestId = 'email-input';
-  const loginSubmitTestId = 'login-submit-input';
+  const passwordInput = 'password-input';
+  const emailInput = 'email-input';
+  const loginSubmitButton = 'login-submit-btn';
   it('render elements on page', () => {
     render(<Login />);
     const titlePage = screen.getByText(/login/i);
-    const inputPassword = screen.getByTestId(passwordTestId);
-    const inputEmail = screen.getByTestId(emailTestId);
-    const button = screen.getByTestId(loginSubmitTestId);
+    const inputPassword = screen.getByTestId(passwordInput);
+    const inputEmail = screen.getByTestId(emailInput);
+    const button = screen.getByTestId(loginSubmitButton);
 
     expect(titlePage).toBeInTheDocument();
     expect(inputPassword).toBeInTheDocument();
@@ -23,9 +23,9 @@ describe('Login page test', () => {
   });
   it('validate password and email', () => {
     render(<Login />);
-    const inputEmail = screen.getByTestId(emailTestId);
-    const inputPassword = screen.getByTestId(passwordTestId);
-    const button = screen.getByTestId(loginSubmitTestId);
+    const inputEmail = screen.getByTestId(emailInput);
+    const inputPassword = screen.getByTestId(passwordInput);
+    const button = screen.getByTestId(loginSubmitButton);
 
     expect(button).toBeDisabled();
 
@@ -42,9 +42,9 @@ describe('Login page test', () => {
   it('redirect to page', () => {
     const { history } = renderWithRouter(<App />);
 
-    const inputEmail = screen.getByTestId(emailTestId);
-    const inputPassword = screen.getByTestId(passwordTestId);
-    const button = screen.getByTestId(loginSubmitTestId);
+    const inputEmail = screen.getByTestId(emailInput);
+    const inputPassword = screen.getByTestId(passwordInput);
+    const button = screen.getByTestId(loginSubmitButton);
 
     userEvent.type(inputEmail, 'bradock@gmail.com');
     userEvent.type(inputPassword, '1234567');
