@@ -1,11 +1,33 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { fetchDrinks, fetchMeals } from '../redux/actions';
 
 function SearchBar({ currentPath }) {
   const [searchValue, setSearchValue] = useState('');
+  const meals = useSelector((state) => state.mealsReducer.meals);
+  const drinks = useSelector((state) => state.drinksReducer.drinks);
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (meals === null) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    } else if (meals.length === 1) {
+      const { idMeal } = meals[0];
+      history.push(`/foods/${idMeal}`);
+    }
+  }, [meals]);
+
+  useEffect(() => {
+    if (drinks === null) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    } else if (drinks.length === 1) {
+      const { idDrink } = drinks[0];
+      history.push(`/drinks/${idDrink}`);
+    }
+  }, [drinks]);
 
   const createApiUrl = (path) => {
     const filter = document.querySelector('input[name="search-filter"]:checked').value;
@@ -15,6 +37,7 @@ function SearchBar({ currentPath }) {
       if (filter === 'f' && searchValue.length > 1) {
         global.alert('Your search must have only 1 (one) character');
       }
+      // if (meals.length === 1)
     } else {
       const endpointDrinks = `https://www.thecocktaildb.com/api/json/v1/1/${filter === 'i' ? 'filter' : 'search'}.php?${filter}=${searchValue}`;
       dispatch(fetchDrinks(endpointDrinks));

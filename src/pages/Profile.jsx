@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-
+import Footer from '../components/Footer';
 import Header from '../components/Header';
-// import Footer from '../components/Footer';
 
 function Profile() {
   const [email, setEmail] = useState();
@@ -10,7 +9,7 @@ function Profile() {
 
   useEffect(() => {
     if (localStorage.getItem('user') === null) {
-      history.push('/');
+      // history.push('/');
     } else {
       const userInfo = JSON.parse(localStorage.getItem('user'));
       setEmail(userInfo.email);
@@ -56,7 +55,7 @@ function Profile() {
         Logout
       </button>
 
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }
