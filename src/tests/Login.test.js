@@ -5,10 +5,11 @@ import Login from '../pages/Login';
 import renderWithRouter from './helpers/RenderWithRouter';
 import App from '../App';
 
+const passwordInput = 'password-input';
+const emailInput = 'email-input';
+const loginSubmitButton = 'login-submit-btn';
+
 describe('Login page test', () => {
-  const passwordInput = 'password-input';
-  const emailInput = 'email-input';
-  const loginSubmitButton = 'login-submit-btn';
   it('render elements on page', () => {
     render(<Login />);
     const titlePage = screen.getByText(/login/i);
