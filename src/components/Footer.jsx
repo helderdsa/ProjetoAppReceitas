@@ -10,17 +10,23 @@ export default function Footer() {
     <footer data-testid="footer">
       <button
         type="button"
-        data-testid="drinks-bottom-btn"
         onClick={ () => { history.push('/drinks'); } }
       >
-        <img src={ drinkIcon } alt="drink" />
+        <img
+          data-testid="drinks-bottom-btn"
+          src={ drinkIcon }
+          alt="drink"
+        />
       </button>
       <button
         type="button"
-        data-testid="food-bottom-btn"
         onClick={ () => { history.push('/foods'); } }
       >
-        <img src={ mealIcon } alt="foods" />
+        <img
+          data-testid="food-bottom-btn"
+          src={ mealIcon }
+          alt="foods"
+        />
       </button>
     </footer>
   );
