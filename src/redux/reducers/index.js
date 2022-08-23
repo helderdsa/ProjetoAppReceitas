@@ -3,8 +3,8 @@ import apiReducerFoods from './apiReducerFoods';
 import apiReducerDrinks from './apiReducerDrinks';
 
 const rootReducer = combineReducers({
-  meals: apiReducerFoods,
-  drinks: apiReducerDrinks,
+  mealsReducer: apiReducerFoods,
+  drinksReducer: apiReducerDrinks,
 });
 
 export default rootReducer;

@@ -23,7 +23,33 @@ const drinkRequest = (payload) => ({
   payload,
 });
 
-const detailsRequest = (payload) => ({
-  type: 'DETAILS_API_REQUEST',
-  payload,
-});
+// const detailsRequest = (payload) => ({
+//   type: 'DETAILS_API_REQUEST',
+//   payload,
+// });
+
+export const fetchMeals = (url) => (
+  async (dispatch) => {
+    dispatch(isLoading());
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      dispatch(foodsRequest(data));
+    } catch (error) {
+      dispatch(failApiRequest());
+    }
+  }
+);
+
+export const fetchDrinks = (url) => (
+  async (dispatch) => {
+    dispatch(isLoading());
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      dispatch(drinkRequest(data));
+    } catch (error) {
+      dispatch(failApiRequest());
+    }
+  }
+);

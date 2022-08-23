@@ -1,17 +1,27 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchDrinks, fetchMeals } from '../redux/actions';
 
 function SearchBar({ currentPath }) {
   const [searchValue, setSearchValue] = useState('');
+  const dispatch = useDispatch();
+
   const createApiUrl = (path) => {
-    let endpoint = '';
     const filter = document.querySelector('input[name="search-filter"]:checked').value;
     if (path === '/foods') {
-      endpoint = `https://www.themealdb.com/api/json/v1/1/${filter === 'i' ? 'filter' : 'search'}.php?${filter}=${searchValue}`;
+      const endpoint = `https://www.themealdb.com/api/json/v1/1/${filter === 'i' ? 'filter' : 'search'}.php?${filter}=${searchValue}`;
+      dispatch(fetchMeals(endpoint));
+      if (filter === 'f' && searchValue.length > 1) {
+        global.alert('Your search must have only 1 (one) character');
+      }
     } else {
-      endpoint = `https://www.thecocktaildb.com/api/json/v1/1/${filter === 'i' ? 'filter' : 'search'}.php?${filter}=${searchValue}`;
+      const endpointDrinks = `https://www.thecocktaildb.com/api/json/v1/1/${filter === 'i' ? 'filter' : 'search'}.php?${filter}=${searchValue}`;
+      dispatch(fetchDrinks(endpointDrinks));
+      if (filter === 'f' && searchValue.length > 1) {
+        global.alert('Your search must have only 1 (one) character');
+      }
     }
-    console.log(endpoint);
   };
 
   return (
