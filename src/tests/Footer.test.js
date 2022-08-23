@@ -13,11 +13,11 @@ describe('Footer component test', () => {
     const { history } = renderWithRouter(<App />);
     history.push('/foods');
 
-    const footer = screen.getByTestId(footerTestId);
+    const footerFoods = screen.getByTestId(footerTestId);
     const drinksIcon = screen.getByTestId(drinksIconTestId);
     const foodsIcon = screen.getByTestId(foodsIconTestId);
 
-    expect(footer).toBeInTheDocument();
+    expect(footerFoods).toBeInTheDocument();
     expect(drinksIcon).toBeInTheDocument();
     expect(foodsIcon).toBeInTheDocument();
   });
@@ -33,5 +33,23 @@ describe('Footer component test', () => {
 
     userEvent.click(foodsIcon);
     expect(history.location.pathname).toBe('/foods');
+  });
+  it('verifies pages that should not have footer', () => {
+    const { history } = renderWithRouter(<App />);
+
+    const footer = screen.queryByTestId(footerTestId);
+    expect(footer).not.toBeInTheDocument();
+
+    history.push('/profile');
+    const footerProfile = screen.queryByTestId(footerTestId);
+    expect(footerProfile).toBeInTheDocument();
+
+    history.push('/done-recipes');
+    const footerDoneRecipes = screen.queryByTestId(footerTestId);
+    expect(footerDoneRecipes).not.toBeInTheDocument();
+
+    history.push('/favorite-recipes');
+    const footerFavoriteRecipes = screen.queryByTestId(footerTestId);
+    expect(footerFavoriteRecipes).not.toBeInTheDocument();
   });
 });
