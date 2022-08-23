@@ -12,14 +12,18 @@ function SearchBar({ currentPath }) {
   const history = useHistory();
 
   useEffect(() => {
-    if (meals.length === 1) {
+    if (meals === null) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    } else if (meals.length === 1) {
       const { idMeal } = meals[0];
       history.push(`/foods/${idMeal}`);
     }
   }, [meals]);
 
   useEffect(() => {
-    if (drinks.length === 1) {
+    if (drinks === null) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    } else if (drinks.length === 1) {
       const { idDrink } = drinks[0];
       history.push(`/drinks/${idDrink}`);
     }
