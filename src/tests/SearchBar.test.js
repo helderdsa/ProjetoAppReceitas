@@ -192,7 +192,6 @@ describe('Drinks page SearchBar tests', () => {
 
     // screen.logTestingPlaygroundURL();
   });
-
   it('fetches drink recipes by first letter', () => {
     const { history } = renderWithRouter(<App />);
     history.push('/drinks');

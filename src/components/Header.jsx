@@ -11,8 +11,6 @@ function Header() {
 
   const verifyPathname = () => {
     switch (pathname) {
-    case '/foods':
-      return 'Foods';
     case '/drinks':
       return 'Drinks';
     case '/profile':
@@ -22,8 +20,7 @@ function Header() {
     case '/favorite-recipes':
       return 'Favorite Recipes';
     default:
-      return 'oi';
-      // break;
+      return 'Foods';
     }
   };
 
