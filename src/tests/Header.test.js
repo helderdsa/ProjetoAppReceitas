@@ -105,3 +105,10 @@ describe('Search button mechanism test', () => {
     expect(screen.queryByTestId('search-input')).not.toBeInTheDocument();
   });
 });
+
+describe('Random Header Tests', () => {
+  it('Random page header test', () => {
+    const { history } = renderWithRouter(<App />);
+    history.push('/random');
+  });
+});
