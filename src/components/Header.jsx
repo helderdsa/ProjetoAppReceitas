@@ -64,7 +64,7 @@ function Header() {
           )
       }
       { searchBar
-        ? <SearchBar />
+        ? <SearchBar currentPath={ pathname } />
         : null}
 
     </header>
