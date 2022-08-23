@@ -3,7 +3,13 @@ const INITIAL_STATE = {
 };
 
 const apiReducerFoods = (state = INITIAL_STATE, action) => {
-  switch (action.type) {
+  const { type, payload } = action;
+  switch (type) {
+  case 'FOODS_API_REQUEST':
+    return {
+      ...state,
+      payload,
+    };
   default:
     return state;
   }
