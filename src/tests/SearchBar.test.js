@@ -3,6 +3,9 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import App from '../App';
 import {
+  letterYDrinksMock, orangeadeDrinksMock, wineIngredientMock,
+} from './helpers/drinksMocks';
+import {
   avocadoIngredientsMock, avocadoRecipesMock, letterYFoodsMock,
 } from './helpers/foodsMocks';
 import renderWithRouter from './helpers/RenderWithRouter';
@@ -15,7 +18,7 @@ const firstLetterRadioTestId = 'first-letter-search-radio';
 const searchBtnTestId = 'exec-search-btn';
 
 describe('Foods page SearchBar tests', () => {
-  it('renders search bar elements correctly', () => {
+  it('renders food search bar elements correctly', () => {
     const { history } = renderWithRouter(<App />);
 
     const searchIcon = screen.queryByTestId(searchIconTestId);
@@ -61,7 +64,7 @@ describe('Foods page SearchBar tests', () => {
 
     // screen.logTestingPlaygroundURL();
   });
-  it('fetches recipes by name', () => {
+  it('fetches food recipes by name', () => {
     const { history } = renderWithRouter(<App />);
     history.push('/foods');
 
@@ -86,7 +89,7 @@ describe('Foods page SearchBar tests', () => {
 
     // screen.logTestingPlaygroundURL();
   });
-  it('fetches recipes by first letter', () => {
+  it('fetches food recipes by first letter', () => {
     const { history } = renderWithRouter(<App />);
     history.push('/foods');
 
@@ -122,7 +125,7 @@ describe('Foods page SearchBar tests', () => {
 });
 
 describe('Drinks page SearchBar tests', () => {
-  it('renders search bar elements correctly', () => {
+  it('renders drinks search bar elements correctly', () => {
     const { history } = renderWithRouter(<App />);
 
     history.push('/drinks');
@@ -143,10 +146,9 @@ describe('Drinks page SearchBar tests', () => {
     const { history } = renderWithRouter(<App />);
     history.push('/drinks');
 
-    // Conferir: será que não vai ser confundido com o outro fetch?
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(avocadoIngredientsMock),
+      json: jest.fn().mockResolvedValue(wineIngredientMock),
     });
 
     const searchIcon = screen.queryByTestId(searchIconTestId);
@@ -162,6 +164,65 @@ describe('Drinks page SearchBar tests', () => {
 
     const url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=wine';
     waitFor(() => expect(fetch).toBeCalledWith(url));
+
+    // screen.logTestingPlaygroundURL();
+  });
+  it('fetches drink recipes by name', () => {
+    const { history } = renderWithRouter(<App />);
+    history.push('/drinks');
+
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(orangeadeDrinksMock),
+    });
+
+    const searchIcon = screen.queryByTestId(searchIconTestId);
+    userEvent.click(searchIcon);
+
+    const searchInput = screen.getByTestId(searchInputTestId);
+    const nameSearchRadio = screen.getByTestId(nameSearchRadioTestId);
+    const searchBtn = screen.getByTestId(searchBtnTestId);
+
+    userEvent.click(nameSearchRadio);
+    userEvent.type('orangeade', searchInput);
+    userEvent.click(searchBtn);
+
+    const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=orangeade';
+    waitFor(() => expect(fetch).toBeCalledWith(url));
+
+    // screen.logTestingPlaygroundURL();
+  });
+
+  it('fetches drink recipes by first letter', () => {
+    const { history } = renderWithRouter(<App />);
+    history.push('/drinks');
+
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(letterYDrinksMock),
+    });
+
+    const searchIcon = screen.queryByTestId(searchIconTestId);
+    userEvent.click(searchIcon);
+
+    const searchInput = screen.getByTestId(searchInputTestId);
+    const firstLetterRadio = screen.getByTestId(firstLetterRadioTestId);
+    const searchBtn = screen.getByTestId(searchBtnTestId);
+
+    userEvent.click(firstLetterRadio);
+    userEvent.type('y', searchInput);
+    userEvent.click(searchBtn);
+
+    const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?f=y';
+    waitFor(() => expect(fetch).toBeCalledWith(url));
+
+    jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+    userEvent.click(firstLetterRadio);
+    userEvent.type('ya', searchInput);
+    userEvent.click(searchBtn);
+
+    expect(alert).toBeCalled();
 
     // screen.logTestingPlaygroundURL();
   });
