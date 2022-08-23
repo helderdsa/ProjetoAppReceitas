@@ -1,3 +1,4 @@
+// FOODS API MOCKS https://www.themealdb.com/api.php
 export const avocadoIngredientsMock = {
   meals: [
     {
@@ -143,7 +144,7 @@ export const avocadoRecipesMock = {
   ],
 };
 
-export const letterYMock = {
+export const letterYFoodsMock = {
   meals: [
     {
       idMeal: '52871',

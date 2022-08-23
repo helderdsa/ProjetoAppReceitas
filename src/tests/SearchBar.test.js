@@ -1,10 +1,10 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import App from '../App';
-import Recipes from '../pages/Recipes';
 import {
-  avocadoIngredientsMock, avocadoRecipesMock, letterYMock } from './helpers/recipesMocks';
+  avocadoIngredientsMock, avocadoRecipesMock, letterYFoodsMock,
+} from './helpers/foodsMocks';
 import renderWithRouter from './helpers/RenderWithRouter';
 
 const searchIconTestId = 'search-top-btn';
@@ -14,7 +14,7 @@ const nameSearchRadioTestId = 'name-search-radio';
 const firstLetterRadioTestId = 'first-letter-search-radio';
 const searchBtnTestId = 'exec-search-btn';
 
-describe('search bar tests', () => {
+describe('Foods page SearchBar tests', () => {
   it('renders search bar elements correctly', () => {
     const { history } = renderWithRouter(<App />);
 
@@ -35,9 +35,11 @@ describe('search bar tests', () => {
     expect(firstLetterRadio).toBeInTheDocument();
     expect(searchBtn).toBeInTheDocument();
   });
-  it('fetches ingredient', () => {
-    render(<Recipes />);
+  it('fetches food ingredient', () => {
+    const { history } = renderWithRouter(<App />);
+    history.push('/foods');
 
+    // Conferir: será que não vai ser confundido com o outro fetch?
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
       json: jest.fn().mockResolvedValue(avocadoIngredientsMock),
@@ -60,7 +62,8 @@ describe('search bar tests', () => {
     // screen.logTestingPlaygroundURL();
   });
   it('fetches recipes by name', () => {
-    render(<Recipes />);
+    const { history } = renderWithRouter(<App />);
+    history.push('/foods');
 
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
@@ -84,11 +87,12 @@ describe('search bar tests', () => {
     // screen.logTestingPlaygroundURL();
   });
   it('fetches recipes by first letter', () => {
-    render(<Recipes />);
+    const { history } = renderWithRouter(<App />);
+    history.push('/foods');
 
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(letterYMock),
+      json: jest.fn().mockResolvedValue(letterYFoodsMock),
     });
 
     const searchIcon = screen.queryByTestId(searchIconTestId);
@@ -112,6 +116,52 @@ describe('search bar tests', () => {
     userEvent.click(searchBtn);
 
     expect(alert).toBeCalled();
+
+    // screen.logTestingPlaygroundURL();
+  });
+});
+
+describe('Drinks page SearchBar tests', () => {
+  it('renders search bar elements correctly', () => {
+    const { history } = renderWithRouter(<App />);
+
+    history.push('/drinks');
+    const searchIcon = screen.queryByTestId(searchIconTestId);
+    userEvent.click(searchIcon);
+
+    const ingredientsRadio = screen.getByTestId(ingredientsRadioTestId);
+    const nameSearchRadio = screen.getByTestId(nameSearchRadioTestId);
+    const firstLetterRadio = screen.getByTestId(firstLetterRadioTestId);
+    const searchBtn = screen.getByTestId(searchBtnTestId);
+
+    expect(ingredientsRadio).toBeInTheDocument();
+    expect(nameSearchRadio).toBeInTheDocument();
+    expect(firstLetterRadio).toBeInTheDocument();
+    expect(searchBtn).toBeInTheDocument();
+  });
+  it('fetches drinks ingredient', () => {
+    const { history } = renderWithRouter(<App />);
+    history.push('/drinks');
+
+    // Conferir: será que não vai ser confundido com o outro fetch?
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(avocadoIngredientsMock),
+    });
+
+    const searchIcon = screen.queryByTestId(searchIconTestId);
+    userEvent.click(searchIcon);
+
+    const searchInput = screen.getByTestId(searchInputTestId);
+    const ingredientsRadio = screen.getByTestId(ingredientsRadioTestId);
+    const searchBtn = screen.getByTestId(searchBtnTestId);
+
+    userEvent.click(ingredientsRadio);
+    userEvent.type('wine', searchInput);
+    userEvent.click(searchBtn);
+
+    const url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=wine';
+    waitFor(() => expect(fetch).toBeCalledWith(url));
 
     // screen.logTestingPlaygroundURL();
   });
