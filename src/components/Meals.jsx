@@ -25,6 +25,7 @@ function Meals() {
           recipeName={ recipe.strMeal }
           index={ index }
           key={ index }
+          url={ `/foods/${recipe.idMeal}` }
         />))}
     </div>
   );
