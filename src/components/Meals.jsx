@@ -17,8 +17,8 @@ function Meals() {
 
   return (
     <div>
-      {categories.meals.length > 0 && <FilterButtons categories={ categories.meals } />}
-      {console.log(categories.meals)}
+      {categories.meals.length > 0
+      && <FilterButtons categories={ categories.meals } isFood />}
       {(data !== null && data.length > 0) && data.slice(0, arrayLength)
         .map((recipe, index) => (<RecipeCard
           recipeThumb={ recipe.strMealThumb }

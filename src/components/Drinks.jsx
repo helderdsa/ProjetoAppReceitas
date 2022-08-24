@@ -17,7 +17,8 @@ function Drinks() {
 
   return (
     <div>
-      {categories.drinks.length > 0 && <FilterButtons categories={ categories.drinks } />}
+      {categories.drinks.length > 0
+      && <FilterButtons categories={ categories.drinks } isFood={ false } />}
       {(data !== null && data.length > 0) && data.slice(0, arrayLength)
         .map((recipe, index) => (<RecipeCard
           recipeThumb={ recipe.strDrinkThumb }
