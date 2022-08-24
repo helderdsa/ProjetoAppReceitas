@@ -13,7 +13,7 @@ const searchIconSrc = 'searchIcon.svg';
 
 describe('Foods and Drinks Header component tests', () => {
   it('foods page header test', () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouterAndRedux(<App />);
     history.push('/foods');
 
     const headerTitle = screen.getByTestId(headerTitleTestId);
@@ -31,7 +31,7 @@ describe('Foods and Drinks Header component tests', () => {
   });
 
   it('drinks page header test', () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouterAndRedux(<App />);
     history.push('/drinks');
 
     const headerTitle = screen.getByTestId(headerTitleTestId);
@@ -51,7 +51,7 @@ describe('Foods and Drinks Header component tests', () => {
 
 describe('Profile Header Tests', () => {
   it('profile page header test', () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouterAndRedux(<App />);
     history.push('/foods');
     expect(history.location.pathname).toBe('/foods');
     const profileIcon = screen.getByTestId(profileIconTestId);
@@ -69,7 +69,7 @@ describe('Profile Header Tests', () => {
 
 describe('Done recipes Header Tests', () => {
   it('Done recipes page header test', () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouterAndRedux(<App />);
     history.push('/done-recipes');
 
     const headerTitle = screen.getByTestId(headerTitleTestId);
@@ -82,7 +82,7 @@ describe('Done recipes Header Tests', () => {
 
 describe('Favorite Recipes Header Tests', () => {
   it('Favorite Recipes page header test', () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouterAndRedux(<App />);
     history.push('/favorite-recipes');
 
     const headerTitle = screen.getByTestId(headerTitleTestId);
@@ -109,7 +109,7 @@ describe('Search button mechanism test', () => {
 
 describe('Random Header Tests', () => {
   it('Random page header test', () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouterAndRedux(<App />);
     history.push('/random');
   });
 });

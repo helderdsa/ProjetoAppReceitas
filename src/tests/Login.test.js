@@ -2,8 +2,8 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Login from '../pages/Login';
-import renderWithRouter from './helpers/RenderWithRouter';
 import App from '../App';
+import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 
 const passwordInput = 'password-input';
 const emailInput = 'email-input';
@@ -41,7 +41,7 @@ describe('Login page test', () => {
     expect(button).not.toBeDisabled();
   });
   it('redirect to page', () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouterAndRedux(<App />);
 
     const inputEmail = screen.getByTestId(emailInput);
     const inputPassword = screen.getByTestId(passwordInput);
