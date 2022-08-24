@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import RecipeCard from '../components/RecipeCard';
 import { fetchDrinks } from '../redux/actions';
 
 function Drinks() {
@@ -9,11 +10,18 @@ function Drinks() {
   }, []);
 
   const data = useSelector((state) => state.drinksReducer.drinks);
+  const arrayLength = 12;
 
   return (
     <div>
       drinks
-      {data.length > 0 && console.log('Drinks', data)}
+      {(data !== null && data.length > 0) && data.slice(0, arrayLength)
+        .map((recipe, index) => (<RecipeCard
+          recipeThumb={ recipe.strDrinkThumb }
+          recipeName={ recipe.strDrink }
+          index={ index }
+          key={ index }
+        />))}
     </div>
   );
 }
