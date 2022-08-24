@@ -3,6 +3,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from './helpers/RenderWithRouter';
+import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 
 const footerTestId = 'footer';
 const drinksIconTestId = 'drinks-bottom-btn';
@@ -10,7 +11,7 @@ const foodsIconTestId = 'food-bottom-btn';
 
 describe('Footer component test', () => {
   it('renders footer elements on page', () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouterAndRedux(<App />);
     history.push('/foods');
 
     const footerFoods = screen.getByTestId(footerTestId);
@@ -22,7 +23,7 @@ describe('Footer component test', () => {
     expect(foodsIcon).toBeInTheDocument();
   });
   it('redirects to foods/drinks on click', () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouterAndRedux(<App />);
     history.push('/foods');
 
     const drinksIcon = screen.getByTestId(drinksIconTestId);
