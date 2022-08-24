@@ -3,6 +3,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/RenderWithRouter';
 import App from '../App';
+import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 
 const headerTitleTestId = 'page-title';
 const profileIconTestId = 'profile-top-btn';
@@ -94,7 +95,7 @@ describe('Favorite Recipes Header Tests', () => {
 
 describe('Search button mechanism test', () => {
   it('', () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouterAndRedux(<App />);
     history.push('/foods');
 
     const searchIcon = screen.getByTestId(searchIconTestId);

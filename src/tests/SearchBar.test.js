@@ -8,7 +8,7 @@ import {
 import {
   avocadoIngredientsMock, avocadoRecipesMock, letterYFoodsMock,
 } from './helpers/foodsMocks';
-import renderWithRouter from './helpers/RenderWithRouter';
+import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 
 const searchIconTestId = 'search-top-btn';
 const searchInputTestId = 'search-input';
@@ -17,9 +17,13 @@ const nameSearchRadioTestId = 'name-search-radio';
 const firstLetterRadioTestId = 'first-letter-search-radio';
 const searchBtnTestId = 'exec-search-btn';
 
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
 describe('Foods page SearchBar tests', () => {
   it('renders food search bar elements correctly', () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouterAndRedux(<App />);
 
     const searchIcon = screen.queryByTestId(searchIconTestId);
     expect(searchIcon).not.toBeInTheDocument();
@@ -38,8 +42,8 @@ describe('Foods page SearchBar tests', () => {
     expect(firstLetterRadio).toBeInTheDocument();
     expect(searchBtn).toBeInTheDocument();
   });
-  it('fetches food ingredient', () => {
-    const { history } = renderWithRouter(<App />);
+  it('fetches food ingredient', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
     history.push('/foods');
 
     // Conferir: será que não vai ser confundido com o outro fetch?
@@ -54,18 +58,17 @@ describe('Foods page SearchBar tests', () => {
     const searchInput = screen.getByTestId(searchInputTestId);
     const ingredientsRadio = screen.getByTestId(ingredientsRadioTestId);
     const searchBtn = screen.getByTestId(searchBtnTestId);
-
+    userEvent.type(searchInput, 'avocado');
     userEvent.click(ingredientsRadio);
-    userEvent.type('avocado', searchInput);
+    await waitFor(() => expect(ingredientsRadio).toHaveFocus());
+
     userEvent.click(searchBtn);
 
-    const url = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=Avocado';
-    waitFor(() => expect(fetch).toBeCalledWith(url));
-
-    // screen.logTestingPlaygroundURL();
+    const url = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=avocado';
+    await waitFor(() => expect(fetch).toBeCalledWith(url));
   });
-  it('fetches food recipes by name', () => {
-    const { history } = renderWithRouter(<App />);
+  it('fetches food recipes by name', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
     history.push('/foods');
 
     jest.spyOn(global, 'fetch');
@@ -77,20 +80,19 @@ describe('Foods page SearchBar tests', () => {
     userEvent.click(searchIcon);
 
     const searchInput = screen.getByTestId(searchInputTestId);
-    const nameSearchRadio = screen.getByTestId(nameSearchRadioTestId);
+    const nameSearchRadio = screen.getByRole('radio', { name: /ingredient/i });
     const searchBtn = screen.getByTestId(searchBtnTestId);
 
+    userEvent.type(searchInput, 'avocado');
     userEvent.click(nameSearchRadio);
-    userEvent.type('avocado', searchInput);
+    await waitFor(() => expect(nameSearchRadio).toHaveFocus());
     userEvent.click(searchBtn);
 
-    const url = 'https://www.themealdb.com/api/json/v1/1/search.php?s=avocado';
-    waitFor(() => expect(fetch).toBeCalledWith(url));
-
-    // screen.logTestingPlaygroundURL();
+    const url = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=avocado';
+    await waitFor(() => expect(fetch).toBeCalledWith(url));
   });
-  it('fetches food recipes by first letter', () => {
-    const { history } = renderWithRouter(<App />);
+  it('fetches food recipes by first letter', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
     history.push('/foods');
 
     jest.spyOn(global, 'fetch');
@@ -102,31 +104,39 @@ describe('Foods page SearchBar tests', () => {
     userEvent.click(searchIcon);
 
     const searchInput = screen.getByTestId(searchInputTestId);
-    const firstLetterRadio = screen.getByTestId(firstLetterRadioTestId);
+    const firstLetterRadio = screen.getByRole('radio', { name: /first letter/i });
     const searchBtn = screen.getByTestId(searchBtnTestId);
 
+    userEvent.type(searchInput, 'y');
     userEvent.click(firstLetterRadio);
-    userEvent.type('y', searchInput);
     userEvent.click(searchBtn);
 
     const url = 'https://www.themealdb.com/api/json/v1/1/search.php?f=y';
-    waitFor(() => expect(fetch).toBeCalledWith(url));
+    await waitFor(() => expect(fetch).toBeCalledWith(url));
+  });
+  it('calls alert', () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+    history.push('/foods');
 
-    jest.spyOn(window, 'alert').mockImplementation(() => {});
+    const searchIcon = screen.queryByTestId(searchIconTestId);
+    userEvent.click(searchIcon);
+
+    const searchInput = screen.getByTestId(searchInputTestId);
+    const firstLetterRadio = screen.getByRole('radio', { name: /first letter/i });
+    const searchBtn = screen.getByTestId(searchBtnTestId);
+
+    global.alert = jest.fn();
 
     userEvent.click(firstLetterRadio);
-    userEvent.type('ya', searchInput);
+    userEvent.type(searchInput, 'ya');
     userEvent.click(searchBtn);
-
-    expect(alert).toBeCalled();
-
-    // screen.logTestingPlaygroundURL();
+    expect(alert).toBeCalledTimes(1);
   });
 });
 
 describe('Drinks page SearchBar tests', () => {
   it('renders drinks search bar elements correctly', () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouterAndRedux(<App />);
 
     history.push('/drinks');
     const searchIcon = screen.queryByTestId(searchIconTestId);
@@ -142,8 +152,8 @@ describe('Drinks page SearchBar tests', () => {
     expect(firstLetterRadio).toBeInTheDocument();
     expect(searchBtn).toBeInTheDocument();
   });
-  it('fetches drinks ingredient', () => {
-    const { history } = renderWithRouter(<App />);
+  it('fetches drinks ingredient', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
     history.push('/drinks');
 
     jest.spyOn(global, 'fetch');
@@ -155,20 +165,19 @@ describe('Drinks page SearchBar tests', () => {
     userEvent.click(searchIcon);
 
     const searchInput = screen.getByTestId(searchInputTestId);
-    const ingredientsRadio = screen.getByTestId(ingredientsRadioTestId);
+    const ingredientsRadio = screen.getByRole('radio', { name: /ingredient/i });
     const searchBtn = screen.getByTestId(searchBtnTestId);
 
+    userEvent.type(searchInput, 'wine');
     userEvent.click(ingredientsRadio);
-    userEvent.type('wine', searchInput);
+    await waitFor(() => expect(ingredientsRadio).toHaveFocus());
     userEvent.click(searchBtn);
 
     const url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=wine';
-    waitFor(() => expect(fetch).toBeCalledWith(url));
-
-    // screen.logTestingPlaygroundURL();
+    await waitFor(() => expect(fetch).toBeCalledWith(url));
   });
-  it('fetches drink recipes by name', () => {
-    const { history } = renderWithRouter(<App />);
+  it('fetches drink recipes by name', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
     history.push('/drinks');
 
     jest.spyOn(global, 'fetch');
@@ -184,16 +193,14 @@ describe('Drinks page SearchBar tests', () => {
     const searchBtn = screen.getByTestId(searchBtnTestId);
 
     userEvent.click(nameSearchRadio);
-    userEvent.type('orangeade', searchInput);
+    userEvent.type(searchInput, 'orangeade');
     userEvent.click(searchBtn);
 
     const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=orangeade';
-    waitFor(() => expect(fetch).toBeCalledWith(url));
-
-    // screen.logTestingPlaygroundURL();
+    await waitFor(() => expect(fetch).toBeCalledWith(url));
   });
-  it('fetches drink recipes by first letter', () => {
-    const { history } = renderWithRouter(<App />);
+  it('fetches drink recipes by first letter', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
     history.push('/drinks');
 
     jest.spyOn(global, 'fetch');
@@ -208,22 +215,32 @@ describe('Drinks page SearchBar tests', () => {
     const firstLetterRadio = screen.getByTestId(firstLetterRadioTestId);
     const searchBtn = screen.getByTestId(searchBtnTestId);
 
+    userEvent.type(searchInput, 'y');
     userEvent.click(firstLetterRadio);
-    userEvent.type('y', searchInput);
+    await waitFor(() => expect(firstLetterRadio).toHaveFocus());
     userEvent.click(searchBtn);
 
     const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?f=y';
-    waitFor(() => expect(fetch).toBeCalledWith(url));
+    await waitFor(() => expect(fetch).toBeCalledWith(url));
+  });
+  it('calls alert', () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+    history.push('/drinks');
 
-    jest.spyOn(window, 'alert').mockImplementation(() => {});
+    const searchIcon = screen.queryByTestId(searchIconTestId);
+    userEvent.click(searchIcon);
+
+    const searchInput = screen.getByTestId(searchInputTestId);
+    const firstLetterRadio = screen.getByRole('radio', { name: /first letter/i });
+    const searchBtn = screen.getByTestId(searchBtnTestId);
+
+    global.alert = jest.fn();
 
     userEvent.click(firstLetterRadio);
-    userEvent.type('ya', searchInput);
+    userEvent.type(searchInput, 'ya');
     userEvent.click(searchBtn);
 
-    expect(alert).toBeCalled();
-
-    // screen.logTestingPlaygroundURL();
+    expect(alert).toBeCalledTimes(1);
   });
 });
 
