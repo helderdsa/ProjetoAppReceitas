@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchDrinks, fetchMeals } from '../redux/actions';
 
 function FilterButtons({ categories, isFood }) {
+  const [isFilterOn, setIsFilterOn] = useState(false);
   const dispatch = useDispatch();
   const maxLenght = 5;
   const formatedCategories = categories
@@ -18,6 +19,7 @@ function FilterButtons({ categories, isFood }) {
       const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`;
       dispatch(fetchDrinks(url));
     }
+    setIsFilterOn(true);
   };
 
   const resetCategory = () => {
@@ -28,6 +30,7 @@ function FilterButtons({ categories, isFood }) {
       const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
       dispatch(fetchDrinks(url));
     }
+    setIsFilterOn(false);
   };
 
   return (
@@ -45,7 +48,7 @@ function FilterButtons({ categories, isFood }) {
             type="button"
             key={ index }
             data-testid={ `${cat}-category-filter` }
-            onClick={ () => requestCategory(cat) }
+            onClick={ isFilterOn ? resetCategory : () => requestCategory(cat) }
           >
             {cat}
           </button>
