@@ -28,15 +28,16 @@ const drinkRequest = (payload) => ({
   payload,
 });
 
+const detailsRequest = (payload) => ({
+  type: 'DETAILS_API_REQUEST',
+  payload,
+});
+
 const drinksCategoriesRequest = (payload) => ({
   type: 'DRINKS_CATEGORIES_API_REQUEST',
   payload,
 });
 
-// const detailsRequest = (payload) => ({
-//   type: 'DETAILS_API_REQUEST',
-//   payload,
-// });
 
 export const fetchMeals = (url) => (
   async (dispatch) => {
@@ -64,6 +65,21 @@ export const fetchDrinks = (url) => (
   }
 );
 
+
+export const fetchDetailsDrinks = (id) => (
+  async (dispatch) => {
+    dispatch(isLoading());
+    try {
+      const response = await fetch(
+        `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`,
+      );
+      const data = await response.json();
+      dispatch(detailsRequest(data.drinks));
+        } catch (error) {
+    dispatch(failApiRequest());
+  }
+};
+
 export const fetchCategoriesMeals = (url) => (
   async (dispatch) => {
     dispatch(isLoading());
@@ -76,6 +92,20 @@ export const fetchCategoriesMeals = (url) => (
     }
   }
 );
+
+
+export const fetchDetailsMeals = (id) => async (dispatch) => {
+  dispatch(isLoading());
+  try {
+    const response = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`,
+    );
+    const data = await response.json();
+    dispatch(detailsRequest(data.meals));
+  } catch (error) {
+    dispatch(failApiRequest());
+  }
+};
 
 export const fetchCategoriesDrinks = (url) => (
   async (dispatch) => {
