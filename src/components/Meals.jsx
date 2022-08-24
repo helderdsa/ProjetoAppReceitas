@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import RecipeCard from '../components/RecipeCard';
+import RecipeCard from './RecipeCard';
 import { fetchMeals } from '../redux/actions';
 
 function Meals() {

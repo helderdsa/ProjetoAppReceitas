@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import RecipeCard from '../components/RecipeCard';
+import RecipeCard from './RecipeCard';
 import { fetchDrinks } from '../redux/actions';
 
 function Drinks() {
@@ -14,7 +14,6 @@ function Drinks() {
 
   return (
     <div>
-      drinks
       {(data !== null && data.length > 0) && data.slice(0, arrayLength)
         .map((recipe, index) => (<RecipeCard
           recipeThumb={ recipe.strDrinkThumb }
