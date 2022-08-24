@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
   meals: [],
+  mealsCategories: { meals: [] },
   isLoading: false,
 };
 
@@ -20,6 +21,12 @@ const apiReducerFoods = (state = INITIAL_STATE, action) => {
   case 'FAIL_API_REQUEST':
     return {
       ...state,
+      isLoading: false,
+    };
+  case 'FOODS_CATEGORIES_API_REQUEST':
+    return {
+      ...state,
+      mealsCategories: payload,
       isLoading: false,
     };
   default:
