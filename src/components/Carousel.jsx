@@ -18,12 +18,10 @@ function Carousel({ isFood }) {
   }, []);
   return (
     <div>
-      {Carousel && Carousel.map((picture, index) => (
-        <img
-          style={ { height: '100px' } }
-          alt="test"
-          src="https://reactjs.org/logo-og.png"
-        />
+      {Carousel && Carousel.map(({}) => (
+        <div>
+          <p>{}</p>
+        </div>
       )) }
     </div>
   );
