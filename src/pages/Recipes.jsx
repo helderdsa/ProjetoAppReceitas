@@ -11,7 +11,6 @@ function Recipes() {
   return (
     <>
       <Header />
-      Recipes page
       {history.location.pathname === '/foods' && <Meals />}
       {history.location.pathname === '/drinks' && <Drinks />}
       <Footer />

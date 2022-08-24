@@ -18,8 +18,18 @@ const foodsRequest = (payload) => ({
   payload,
 });
 
+const foodsCategoriesRequest = (payload) => ({
+  type: 'FOODS_CATEGORIES_API_REQUEST',
+  payload,
+});
+
 const drinkRequest = (payload) => ({
   type: 'DRINKS_API_REQUEST',
+  payload,
+});
+
+const drinksCategoriesRequest = (payload) => ({
+  type: 'DRINKS_CATEGORIES_API_REQUEST',
   payload,
 });
 
@@ -48,6 +58,32 @@ export const fetchDrinks = (url) => (
       const response = await fetch(url);
       const data = await response.json();
       dispatch(drinkRequest(data));
+    } catch (error) {
+      dispatch(failApiRequest());
+    }
+  }
+);
+
+export const fetchCategoriesMeals = (url) => (
+  async (dispatch) => {
+    dispatch(isLoading());
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      dispatch(foodsCategoriesRequest(data));
+    } catch (error) {
+      dispatch(failApiRequest());
+    }
+  }
+);
+
+export const fetchCategoriesDrinks = (url) => (
+  async (dispatch) => {
+    dispatch(isLoading());
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      dispatch(drinksCategoriesRequest(data));
     } catch (error) {
       dispatch(failApiRequest());
     }
