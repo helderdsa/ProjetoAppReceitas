@@ -12,7 +12,6 @@ function DrinksDetails({ id }) {
   const [img, setImg] = useState();
   const [instructions, setInstructions] = useState();
   const [alcoholic, setAlcoholic] = useState();
-  const [category, setCategory] = useState();
   const [ingredient, setIngredient] = useState();
 
   useEffect(() => {
@@ -21,7 +20,7 @@ function DrinksDetails({ id }) {
 
   useEffect(() => {
     if (details.length >= 1) {
-      const { strDrink, strCategory,
+      const { strDrink,
         strInstructions, strDrinkThumb,
         strAlcoholic } = details[0];
 
@@ -45,7 +44,6 @@ function DrinksDetails({ id }) {
       //   console.log(ingredients, measuresList, ingredientsList);
 
       setTitle(strDrink);
-      setCategory(strCategory);
       setInstructions(strInstructions);
       setImg(strDrinkThumb);
       setIngredient(ingredients);

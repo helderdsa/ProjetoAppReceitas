@@ -12,6 +12,7 @@ function RecipeDetails() {
     <>
       {pathname.includes('foods') && <MealsDetails id={ id } />}
       {pathname.includes('drinks') && <DrinksDetails id={ id } />}
+
       <button
         data-testid="start-recipe-btn"
         type="button"
