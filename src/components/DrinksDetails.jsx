@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import { fetchDetailsDrinks } from '../redux/actions';
 import CarouselMeals from './CarouselMeals';
+import shareIcon from '../images/shareIcon.svg';
+import favoriteIcon from '../images/whiteHeartIcon.svg';
+
+const copy = require('clipboard-copy');
 
 function DrinksDetails({ id }) {
   const details = useSelector((state) => state.detailsReducer.details);
@@ -13,6 +18,7 @@ function DrinksDetails({ id }) {
   const [instructions, setInstructions] = useState();
   const [alcoholic, setAlcoholic] = useState();
   const [ingredient, setIngredient] = useState();
+  const [hasCopied, setHasCopied] = useState(false);
 
   useEffect(() => {
     dispatch(fetchDetailsDrinks(id));
@@ -51,9 +57,40 @@ function DrinksDetails({ id }) {
     }
   }, [details]);
 
+  const history = useHistory();
+  const { location: { pathname } } = history;
+
+  const shareRecipe = () => {
+    const num = 3000;
+    copy(`http://localhost:3000${pathname}`);
+    setHasCopied(true);
+    setTimeout(() => setHasCopied(false), num);
+  };
+
   return (
     <div>
       <img src={ img } alt={ title } data-testid="recipe-photo" />
+      <button
+        type="button"
+        onClick={ () => { shareRecipe(); } }
+      >
+        <img
+          src={ shareIcon }
+          alt="search icon"
+          data-testid="share-btn"
+        />
+        {hasCopied && <p>Link copied!</p>}
+      </button>
+      <button
+        type="button"
+        onClick={ () => {} }
+      >
+        <img
+          src={ favoriteIcon }
+          alt="search icon"
+          data-testid="favorite-btn"
+        />
+      </button>
       <h1 data-testid="recipe-title">{title}</h1>
       <h3 data-testid="recipe-category">{alcoholic}</h3>
       <p data-testid="instructions">{instructions}</p>
