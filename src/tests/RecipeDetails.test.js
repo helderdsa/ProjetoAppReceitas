@@ -1,36 +1,97 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import App from '../App';
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 import { lasagnaMock, ABCMock } from './helpers/detailsMocks';
+import drinksCarousel from './helpers/drinksCarouselMock';
 
 const IMG_ID = 'recipe-photo';
 const SHARE_BTN_ID = 'share-btn';
 const FAVORITE_BTN_ID = 'favorite-btn';
 const TITLE_ID = 'recipe-title';
-const CATEGORY_ID = 'recipe-category';
+// const CATEGORY_ID = 'recipe-category';
 const INSTRUCTIONS_ID = 'instructions';
 const MOVIE_ID = 'video';
 const BTN_START_ID = 'start-recipe-btn';
+const drinksCarouselURL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+const lasagnaURL = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=52844';
+const doneRecipe = [{
+  id: '52844',
+  type: 'comida-ou-bebida',
+  nationality: 'nacionalidade-da-receita-ou-texto-vazio',
+  category: 'categoria-da-receita-ou-texto-vazio',
+  alcoholicOrNot: 'alcoholic-ou-non-alcoholic-ou-texto-vazio',
+  name: 'nome-da-receita',
+  image: 'imagem-da-receita',
+  doneDate: 'quando-a-receita-foi-concluida',
+  tags: 'array-de-tags-da-receita-ou-array-vazio',
+}];
+const inProgressRecipes = {
+  cocktails: {
+    // id-da-bebida: [lista-de-ingredientes-utilizados],
+  },
+  meals: {
+    52844: [],
+  },
+};
+
+beforeEach(() => {
+  jest.spyOn(global, 'fetch').mockImplementation((url) => {
+    if (url === lasagnaURL) {
+      return Promise.resolve({ json: () => Promise.resolve(lasagnaMock) });
+    }
+    if (url === drinksCarouselURL) {
+      return Promise.resolve({ json: () => Promise.resolve(drinksCarousel) });
+    }
+  });
+});
 
 describe('RecipeDetails page test', () => {
-  it('render elements on page', () => {
+  it('render elements on page', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
     history.push('/foods/52844');
-    jest.spyOn(global, 'fetch');
-    global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(lasagnaMock),
-    });
-    // screen.logTestingPlaygroundURL();
-    const img = screen.getByTestId(IMG_ID);
-    const btnShare = screen.getByTestId(SHARE_BTN_ID);
-    const btnFavorite = screen.getByTestId(FAVORITE_BTN_ID);
-    const title = screen.getByTestId(TITLE_ID);
-    const category = screen.getByTestId(CATEGORY_ID);
-    const instructions = screen.getByTestId(INSTRUCTIONS_ID);
-    const movie = screen.getByTestId(MOVIE_ID);
-    const btnStart = screen.getByTestId(BTN_START_ID);
 
+    // jest.spyOn(global, 'fetch');
+    // global.fetch.mockImplementation((url) => {
+    //   console.log(url);
+    //   return {
+    //     json: () => {
+    //       if (url === drinksCarouselURL) {
+    //         return jest.fn().mockResolvedValue(drinksCarousel);
+    //       }
+    //       if (url === lasagnaURL) {
+    //         return jest.fn().mockResolvedValue(lasagnaMock);
+    //       }
+    //     },
+    //   };
+    // });
+
+    // jest.spyOn(global, 'fetch').mockImplementation((url) => {
+    //   if (url === lasagnaURL) {
+    //     return Promise.resolve({ json: () => Promise.resolve(lasagnaMock) });
+    //   }
+    //   if (url === drinksCarouselURL) {
+    //     return Promise.resolve({ json: () => Promise.resolve(drinksCarousel) });
+    //   }
+    // });
+
+    await waitFor(() => expect(fetch).toBeCalledWith(drinksCarouselURL));
+    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+
+    // screen.logTestingPlaygroundURL();
+
+    const img = await screen.findByTestId(IMG_ID);
+    const btnShare = await screen.findByTestId(SHARE_BTN_ID);
+    const btnFavorite = await screen.findByTestId(FAVORITE_BTN_ID);
+    const title = await screen.findByTestId(TITLE_ID);
+    const category = await screen.findByText(/Pasta/i);
+    // const category2 = await screen.findByTestId(CATEGORY_ID);
+    const instructions = await screen.findByTestId(INSTRUCTIONS_ID);
+    const movie = await screen.findByTestId(MOVIE_ID);
+    const btnStart = await screen.findByTestId(BTN_START_ID);
+
+    expect(img.src).toBe('https://www.themealdb.com/images/media/meals/wtsvxx1511296896.jpg');
     expect(img).toBeInTheDocument();
     expect(btnShare).toBeInTheDocument();
     expect(btnFavorite).toBeInTheDocument();
@@ -40,4 +101,44 @@ describe('RecipeDetails page test', () => {
     expect(movie).toBeInTheDocument();
     expect(btnStart).toBeInTheDocument();
   });
+
+  it('redirect to in progress page', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+    history.push('/foods/52844');
+
+    await waitFor(() => expect(fetch).toBeCalledWith(drinksCarouselURL));
+    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+
+    const btnStart = await screen.findByTestId(BTN_START_ID);
+
+    userEvent.click(btnStart);
+    expect(history.location.pathname).toBe('/foods/52844/in-progress');
+  });
+
+  it('change button name to continue button', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+    localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
+    history.push('/foods/52844');
+
+    await waitFor(() => expect(fetch).toBeCalledWith(drinksCarouselURL));
+    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+
+    const btnStart = await screen.findByTestId(BTN_START_ID);
+    screen.logTestingPlaygroundURL();
+    expect(btnStart).toHaveTextContent(/continue recipe/i);
+  });
+
+  it('start button disabled', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+    localStorage.setItem('doneRecipes', JSON.stringify(doneRecipe));
+    history.push('/foods/52844');
+
+    await waitFor(() => expect(fetch).toBeCalledWith(drinksCarouselURL));
+    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+
+    const btnStart = screen.queryByTestId(BTN_START_ID);
+    expect(btnStart).not.toBeInTheDocument();
+  });
+
+
 });
