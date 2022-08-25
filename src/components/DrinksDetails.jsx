@@ -96,6 +96,24 @@ function DrinksDetails({ id }) {
         },
       ]));
     }
+    setFavoritado(!favoritado);
+  };
+
+  const removeFromFavorites = () => {
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const index = favoriteRecipes.indexOf(favoriteRecipes
+      .find((recipe) => recipe.id === id));
+    favoriteRecipes.splice(index, 1);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+    setFavoritado(!favoritado);
+  };
+
+  const handleFavorite = () => {
+    if (!favoritado) {
+      favoriteRecipe();
+    } else {
+      removeFromFavorites();
+    }
   };
 
   return (
@@ -114,7 +132,7 @@ function DrinksDetails({ id }) {
       </button>
       <button
         type="button"
-        onClick={ favoriteRecipe }
+        onClick={ handleFavorite }
       >
         <img
           src={ favoritado ? blackFavoriteIcon : whiteFavoriteIcon }
