@@ -6,7 +6,8 @@ import copy from 'clipboard-copy';
 import { fetchDetailsMeals } from '../redux/actions';
 import CarouselDrinks from './CarouselDrinks';
 import shareIcon from '../images/shareIcon.svg';
-import favoriteIcon from '../images/whiteHeartIcon.svg';
+import whiteFavoriteIcon from '../images/whiteHeartIcon.svg';
+import blackFavoriteIcon from '../images/blackHeartIcon.svg';
 // const copy = require('clipboard-copy');
 
 function MealsDetails({ id }) {
@@ -20,6 +21,7 @@ function MealsDetails({ id }) {
   const [ingredient, setIngredient] = useState();
   const [movie, setMovie] = useState();
   const [hasCopied, setHasCopied] = useState(false);
+  const [favoritado, setFavoritado] = useState(false);
 
   useEffect(() => {
     dispatch(fetchDetailsMeals(id));
@@ -59,6 +61,16 @@ function MealsDetails({ id }) {
     }
   }, [details]);
 
+  useEffect(() => {
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (!favoriteRecipes) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+    } else {
+      setFavoritado(favoriteRecipes
+        .some((recipe) => recipe.id === id));
+    }
+  }, []);
+
   const history = useHistory();
   const { location: { pathname } } = history;
 
@@ -67,6 +79,26 @@ function MealsDetails({ id }) {
     copy(`http://localhost:3000${pathname}`);
     setHasCopied(true);
     setTimeout(() => setHasCopied(false), num);
+  };
+
+  const favoriteRecipe = () => {
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (details.length >= 1) {
+      const { strMeal, strCategory, strMealThumb, strArea } = details[0];
+      localStorage.setItem('favoriteRecipes', JSON.stringify([
+        ...favoriteRecipes,
+        {
+          id,
+          type: 'food',
+          nationality: strArea,
+          category: strCategory,
+          alcoholicOrNot: '',
+          name: strMeal,
+          image: strMealThumb,
+        },
+      ]));
+    }
+    setFavoritado(true);
   };
 
   return (
@@ -78,18 +110,18 @@ function MealsDetails({ id }) {
       >
         <img
           src={ shareIcon }
-          alt="search icon"
+          alt="share icon"
           data-testid="share-btn"
         />
         {hasCopied && <p>Link copied!</p>}
       </button>
       <button
         type="button"
-        onClick={ () => {} }
+        onClick={ favoriteRecipe }
       >
         <img
-          src={ favoriteIcon }
-          alt="search icon"
+          src={ favoritado ? blackFavoriteIcon : whiteFavoriteIcon }
+          alt="favorite icon"
           data-testid="favorite-btn"
         />
       </button>
