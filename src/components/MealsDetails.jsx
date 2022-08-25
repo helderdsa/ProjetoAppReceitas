@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
+import copy from 'clipboard-copy';
 import { fetchDetailsMeals } from '../redux/actions';
 import CarouselDrinks from './CarouselDrinks';
+import shareIcon from '../images/shareIcon.svg';
+import favoriteIcon from '../images/whiteHeartIcon.svg';
+// const copy = require('clipboard-copy');
 
 function MealsDetails({ id }) {
   const details = useSelector((state) => state.detailsReducer.details);
@@ -14,6 +19,7 @@ function MealsDetails({ id }) {
   const [category, setCategory] = useState();
   const [ingredient, setIngredient] = useState();
   const [movie, setMovie] = useState();
+  const [hasCopied, setHasCopied] = useState(false);
 
   useEffect(() => {
     dispatch(fetchDetailsMeals(id));
@@ -42,8 +48,6 @@ function MealsDetails({ id }) {
       const ingredients = ingredientsList
         .map((value, i) => ({ ingredientValue: value, measure: measuresList[i] }));
 
-      //   console.log(ingredients, measuresList, ingredientsList);
-
       const linkMovie = strYoutube && strYoutube.replace('https://www.youtube.com/watch?v=', '');
 
       setTitle(strMeal);
@@ -55,9 +59,40 @@ function MealsDetails({ id }) {
     }
   }, [details]);
 
+  const history = useHistory();
+  const { location: { pathname } } = history;
+
+  const shareRecipe = () => {
+    const num = 3000;
+    copy(`http://localhost:3000${pathname}`);
+    setHasCopied(true);
+    setTimeout(() => setHasCopied(false), num);
+  };
+
   return (
     <div>
       <img src={ img } alt={ title } data-testid="recipe-photo" width="300px" />
+      <button
+        type="button"
+        onClick={ () => shareRecipe() }
+      >
+        <img
+          src={ shareIcon }
+          alt="search icon"
+          data-testid="share-btn"
+        />
+        {hasCopied && <p>Link copied!</p>}
+      </button>
+      <button
+        type="button"
+        onClick={ () => {} }
+      >
+        <img
+          src={ favoriteIcon }
+          alt="search icon"
+          data-testid="favorite-btn"
+        />
+      </button>
       <h1 data-testid="recipe-title">{title}</h1>
       <h3 data-testid="recipe-category">{category}</h3>
       <p data-testid="instructions">{instructions}</p>
