@@ -38,7 +38,6 @@ const drinksCategoriesRequest = (payload) => ({
   payload,
 });
 
-
 export const fetchMeals = (url) => (
   async (dispatch) => {
     dispatch(isLoading());
@@ -65,7 +64,6 @@ export const fetchDrinks = (url) => (
   }
 );
 
-
 export const fetchDetailsDrinks = (id) => (
   async (dispatch) => {
     dispatch(isLoading());
@@ -75,10 +73,11 @@ export const fetchDetailsDrinks = (id) => (
       );
       const data = await response.json();
       dispatch(detailsRequest(data.drinks));
-        } catch (error) {
-    dispatch(failApiRequest());
+    } catch (error) {
+      dispatch(failApiRequest());
+    }
   }
-};
+);
 
 export const fetchCategoriesMeals = (url) => (
   async (dispatch) => {
@@ -92,7 +91,6 @@ export const fetchCategoriesMeals = (url) => (
     }
   }
 );
-
 
 export const fetchDetailsMeals = (id) => async (dispatch) => {
   dispatch(isLoading());
