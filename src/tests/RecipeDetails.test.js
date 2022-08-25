@@ -5,7 +5,9 @@ import App from '../App';
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 import { lasagnaMock, ABCMock } from './helpers/detailsMocks';
 import drinksCarousel from './helpers/drinksCarouselMock';
+import mealsCarouselMock from './helpers/mealsCarouselMock';
 
+const foodsURL = '/foods/52844';
 const IMG_ID = 'recipe-photo';
 const SHARE_BTN_ID = 'share-btn';
 const FAVORITE_BTN_ID = 'favorite-btn';
@@ -36,21 +38,21 @@ const inProgressRecipes = {
   },
 };
 
-beforeEach(() => {
-  jest.spyOn(global, 'fetch').mockImplementation((url) => {
-    if (url === lasagnaURL) {
-      return Promise.resolve({ json: () => Promise.resolve(lasagnaMock) });
-    }
-    if (url === drinksCarouselURL) {
-      return Promise.resolve({ json: () => Promise.resolve(drinksCarousel) });
-    }
-  });
-});
-
 describe('RecipeDetails page test', () => {
+  beforeEach(() => {
+    jest.spyOn(global, 'fetch').mockImplementation((url) => {
+      if (url === lasagnaURL) {
+        return Promise.resolve({ json: () => Promise.resolve(lasagnaMock) });
+      }
+      if (url === drinksCarouselURL) {
+        return Promise.resolve({ json: () => Promise.resolve(drinksCarousel) });
+      }
+    });
+  });
+
   it('render elements on page', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
-    history.push('/foods/52844');
+    history.push(foodsURL);
 
     // jest.spyOn(global, 'fetch');
     // global.fetch.mockImplementation((url) => {
@@ -66,20 +68,8 @@ describe('RecipeDetails page test', () => {
     //     },
     //   };
     // });
-
-    // jest.spyOn(global, 'fetch').mockImplementation((url) => {
-    //   if (url === lasagnaURL) {
-    //     return Promise.resolve({ json: () => Promise.resolve(lasagnaMock) });
-    //   }
-    //   if (url === drinksCarouselURL) {
-    //     return Promise.resolve({ json: () => Promise.resolve(drinksCarousel) });
-    //   }
-    // });
-
     await waitFor(() => expect(fetch).toBeCalledWith(drinksCarouselURL));
     await waitFor(() => expect(fetch).toBeCalledTimes(2));
-
-    // screen.logTestingPlaygroundURL();
 
     const img = await screen.findByTestId(IMG_ID);
     const btnShare = await screen.findByTestId(SHARE_BTN_ID);
@@ -104,7 +94,7 @@ describe('RecipeDetails page test', () => {
 
   it('redirect to in progress page', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
-    history.push('/foods/52844');
+    history.push(foodsURL);
 
     await waitFor(() => expect(fetch).toBeCalledWith(drinksCarouselURL));
     await waitFor(() => expect(fetch).toBeCalledTimes(2));
@@ -118,20 +108,19 @@ describe('RecipeDetails page test', () => {
   it('change button name to continue button', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
     localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
-    history.push('/foods/52844');
+    history.push(foodsURL);
 
     await waitFor(() => expect(fetch).toBeCalledWith(drinksCarouselURL));
     await waitFor(() => expect(fetch).toBeCalledTimes(2));
 
     const btnStart = await screen.findByTestId(BTN_START_ID);
-    screen.logTestingPlaygroundURL();
     expect(btnStart).toHaveTextContent(/continue recipe/i);
   });
 
   it('start button disabled', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipe));
-    history.push('/foods/52844');
+    history.push(foodsURL);
 
     await waitFor(() => expect(fetch).toBeCalledWith(drinksCarouselURL));
     await waitFor(() => expect(fetch).toBeCalledTimes(2));
@@ -139,6 +128,30 @@ describe('RecipeDetails page test', () => {
     const btnStart = screen.queryByTestId(BTN_START_ID);
     expect(btnStart).not.toBeInTheDocument();
   });
+});
 
+describe('RecipeDetails page test drinks', () => {
+  beforeEach(() => {
+    jest.spyOn(global, 'fetch').mockImplementation((url) => {
+      if (url === 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=13501') {
+        return Promise.resolve({ json: () => Promise.resolve(ABCMock) });
+      }
+      if (url === 'https://www.themealdb.com/api/json/v1/1/search.php?s=') {
+        return Promise.resolve({ json: () => Promise.resolve(mealsCarouselMock) });
+      }
+    });
+  });
 
+  it('render elements on page', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+    history.push('/drinks/13501');
+
+    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+    // screen.logTestingPlaygroundURL();
+
+    const btnStart = await screen.findByTestId('start-recipe-btn');
+
+    userEvent.click(btnStart);
+    expect(history.location.pathname).toBe('/drinks/13501/in-progress');
+  });
 });
