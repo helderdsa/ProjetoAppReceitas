@@ -17,6 +17,14 @@ function RecipeDetails() {
   const inProgressKeys = inProgressPathname && Object.keys(inProgressPathname);
   const inProgress = inProgressKeys && inProgressKeys.some((recipe) => recipe === id);
 
+  const redirectToInProgress = () => {
+    if (pathname.includes('foods')) {
+      history.push(`/foods/${id}/in-progress`);
+    } else {
+      history.push(`/drinks/${id}/in-progress`);
+    }
+  };
+
   return (
     <>
       {pathname.includes('foods') && <MealsDetails id={ id } />}
@@ -29,6 +37,7 @@ function RecipeDetails() {
             data-testid="start-recipe-btn"
             type="button"
             className="recipe-btn"
+            onClick={ redirectToInProgress }
           >
             {inProgress ? 'Continue Recipe' : 'Start Button'}
           </button>)

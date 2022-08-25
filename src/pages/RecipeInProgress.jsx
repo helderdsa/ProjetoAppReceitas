@@ -3,7 +3,7 @@ import React from 'react';
 function RecipeInProgress() {
   return (
     <>
-      Recipes Details
+      Recipes Details In Progress
     </>
   );
 }
