@@ -69,7 +69,7 @@ function DrinksDetails({ id }) {
 
   return (
     <div>
-      <img src={ img } alt={ title } data-testid="recipe-photo" />
+      <img src={ img } alt={ title } data-testid="recipe-photo" width="300px" />
       <button
         type="button"
         onClick={ () => { shareRecipe(); } }
