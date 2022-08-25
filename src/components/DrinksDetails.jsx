@@ -5,7 +5,8 @@ import { useHistory } from 'react-router-dom';
 import { fetchDetailsDrinks } from '../redux/actions';
 import CarouselMeals from './CarouselMeals';
 import shareIcon from '../images/shareIcon.svg';
-import favoriteIcon from '../images/whiteHeartIcon.svg';
+import whiteFavoriteIcon from '../images/whiteHeartIcon.svg';
+import blackFavoriteIcon from '../images/blackHeartIcon.svg';
 
 const copy = require('clipboard-copy');
 
@@ -19,6 +20,7 @@ function DrinksDetails({ id }) {
   const [alcoholic, setAlcoholic] = useState();
   const [ingredient, setIngredient] = useState();
   const [hasCopied, setHasCopied] = useState(false);
+  const [favoritado, setFavoritado] = useState(false);
 
   useEffect(() => {
     dispatch(fetchDetailsDrinks(id));
@@ -57,6 +59,16 @@ function DrinksDetails({ id }) {
     }
   }, [details]);
 
+  useEffect(() => {
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (!favoriteRecipes) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+    } else {
+      setFavoritado(favoriteRecipes
+        .some((recipe) => recipe.id === id));
+    }
+  }, []);
+
   const history = useHistory();
   const { location: { pathname } } = history;
 
@@ -65,6 +77,43 @@ function DrinksDetails({ id }) {
     copy(`http://localhost:3000${pathname}`);
     setHasCopied(true);
     setTimeout(() => setHasCopied(false), num);
+  };
+
+  const favoriteRecipe = () => {
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (details.length >= 1) {
+      const { strDrink, strCategory, strDrinkThumb, strAlcoholic } = details[0];
+      localStorage.setItem('favoriteRecipes', JSON.stringify([
+        ...favoriteRecipes,
+        {
+          id,
+          type: 'drink',
+          nationality: '',
+          category: strCategory,
+          alcoholicOrNot: strAlcoholic,
+          name: strDrink,
+          image: strDrinkThumb,
+        },
+      ]));
+    }
+    setFavoritado(!favoritado);
+  };
+
+  const removeFromFavorites = () => {
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const index = favoriteRecipes.indexOf(favoriteRecipes
+      .find((recipe) => recipe.id === id));
+    favoriteRecipes.splice(index, 1);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+    setFavoritado(!favoritado);
+  };
+
+  const handleFavorite = () => {
+    if (!favoritado) {
+      favoriteRecipe();
+    } else {
+      removeFromFavorites();
+    }
   };
 
   return (
@@ -76,18 +125,18 @@ function DrinksDetails({ id }) {
       >
         <img
           src={ shareIcon }
-          alt="search icon"
+          alt="share icon"
           data-testid="share-btn"
         />
         {hasCopied && <p>Link copied!</p>}
       </button>
       <button
         type="button"
-        onClick={ () => {} }
+        onClick={ handleFavorite }
       >
         <img
-          src={ favoriteIcon }
-          alt="search icon"
+          src={ favoritado ? blackFavoriteIcon : whiteFavoriteIcon }
+          alt="favorite icon"
           data-testid="favorite-btn"
         />
       </button>
