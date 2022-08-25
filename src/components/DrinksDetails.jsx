@@ -57,8 +57,7 @@ function DrinksDetails({ id }) {
     <div>
       <img src={ img } alt={ title } data-testid="recipe-photo" />
       <h1 data-testid="recipe-title">{title}</h1>
-      <h3 data-testid="recipe-category">{category}</h3>
-      <h3>{alcoholic}</h3>
+      <h3 data-testid="recipe-category">{alcoholic}</h3>
       <p data-testid="instructions">{instructions}</p>
       <ul>
         {ingredient && ingredient

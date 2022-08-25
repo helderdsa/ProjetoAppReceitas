@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import './Carousel.css';
 
-function RecipeCard({ recipeThumb, recipeName, index, url }) {
+function CarouselCard({ recipeThumb, recipeName, index, url, category }) {
   const history = useHistory();
-  const { location: { pathname } } = history;
-  console.log(pathname);
   return (
     <div
-      data-testid={ `${index}-recipe-card` }
+      className="carousel-card"
+      data-testid={ `${index}-recomendation-card` }
       onClick={ () => history.push(url) }
       onKeyPress={ () => {} }
       role="button"
@@ -20,16 +20,18 @@ function RecipeCard({ recipeThumb, recipeName, index, url }) {
         width="100px"
         data-testid={ `${index}-card-img` }
       />
-      <p data-testid={ `${index}-card-name` }>{ recipeName }</p>
+      <p data-testid="recipe-category">{ category }</p>
+      <p data-testid={ `${index}-recomendation-title` }>{ recipeName }</p>
     </div>
   );
 }
 
-RecipeCard.propTypes = {
+CarouselCard.propTypes = {
   index: PropTypes.number,
   recipeName: PropTypes.string,
   recipeThumb: PropTypes.string,
   url: PropTypes.string,
+  category: PropTypes.string,
 }.isRequired;
 
-export default RecipeCard;
+export default CarouselCard;

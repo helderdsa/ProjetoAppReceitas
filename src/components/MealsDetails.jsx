@@ -44,7 +44,7 @@ function MealsDetails({ id }) {
 
       //   console.log(ingredients, measuresList, ingredientsList);
 
-      const linkMovie = strYoutube.replace('https://www.youtube.com/watch?v=', '');
+      const linkMovie = strYoutube && strYoutube.replace('https://www.youtube.com/watch?v=', '');
 
       setTitle(strMeal);
       setCategory(strCategory);
@@ -70,8 +70,8 @@ function MealsDetails({ id }) {
       </ul>
       <iframe
         data-testid="video"
-        width="560"
-        height="315"
+        width="230"
+        height="160"
         src={ `https://www.youtube.com/embed/${movie}` }
         frameBorder="0"
         title="YouTube video player"

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import RecipeCard from './RecipeCard';
 import { fetchMeals } from '../services/fetch';
+import CarouselCard from './CarouselCard';
+import './Carousel.css';
 
 function CarouselMeals() {
   const [carousel, setCarousel] = useState();
@@ -14,12 +15,13 @@ function CarouselMeals() {
   }, []);
 
   return (
-    <div>
-      {carousel && carousel.map(({ strMeal, strMealThumb, idMeal }, i) => (
-        <RecipeCard
+    <div className="carousel">
+      {carousel && carousel.map(({ strMeal, strMealThumb, idMeal, strCategory }, i) => (
+        <CarouselCard
           key={ i }
           recipeThumb={ strMealThumb }
           recipeName={ strMeal }
+          category={ strCategory }
           index={ i }
           url={ `/foods/${idMeal}` }
         />
