@@ -53,7 +53,7 @@ function DrinksDetails({ id }) {
 
   return (
     <div>
-      <img src={ img } alt={ title } data-testid="recipe-photo" />
+      <img src={ img } alt={ title } data-testid="recipe-photo" width="300px" />
       <h1 data-testid="recipe-title">{title}</h1>
       <h3 data-testid="recipe-category">{alcoholic}</h3>
       <p data-testid="instructions">{instructions}</p>
