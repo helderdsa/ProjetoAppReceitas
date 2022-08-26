@@ -143,6 +143,37 @@ describe('RecipeDetails page test', () => {
     userEvent.click(carrouselItem);
     expect(history.location.pathname).toBe('/drinks/15997');
   });
+
+  it('clicks share button', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+    history.push(foodsURL);
+    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+    // TODO
+  });
+
+  it('clicks favorite button', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+    history.push(foodsURL);
+
+    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+    const favoriteBtn = await screen.findByTestId('favorite-btn');
+
+    userEvent.click(favoriteBtn);
+    userEvent.click(favoriteBtn);
+  });
+
+  it('loads favorite recipe', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+
+    const favoriteRecipe = [{ id: '52844' }];
+    localStorage.clear();
+
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipe));
+
+    history.push(foodsURL);
+
+    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+  });
 });
 
 describe('RecipeDetails page test drinks', () => {
@@ -201,7 +232,7 @@ describe('RecipeDetails page test drinks', () => {
   it('loads favorite recipe', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
 
-    const favoriteRecipe = [{ id: '52977', type: 'food', nationality: 'Turkish', category: 'Side', alcoholicOrNot: '', name: 'Corba', image: 'https://www.themealdb.com/images/media/meals/58oia61564916529.jpg' }];
+    const favoriteRecipe = [{ id: '52977' }];
     localStorage.clear();
 
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipe));
