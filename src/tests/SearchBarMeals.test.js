@@ -2,9 +2,7 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import App from '../App';
-import {
-  letterYDrinksMock, orangeadeDrinksMock, wineIngredientMock,
-} from './helpers/drinksMocks';
+import drinksCarousel from './helpers/drinksCarouselMock';
 import {
   avocadoIngredientsMock, avocadoRecipesMock, letterYFoodsMock,
 } from './helpers/foodsMocks';
@@ -95,9 +93,15 @@ describe('Foods page SearchBar tests', () => {
     const { history } = renderWithRouterAndRedux(<App />);
     history.push('/foods');
 
-    jest.spyOn(global, 'fetch');
-    global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(letterYFoodsMock),
+    const urlMeal = 'https://www.themealdb.com/api/json/v1/1/search.php?f=y';
+
+    jest.spyOn(global, 'fetch').mockImplementation((url) => {
+      if (url === urlMeal) {
+        return Promise.resolve({ json: () => Promise.resolve(letterYFoodsMock) });
+      }
+      if (url === 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=') {
+        return Promise.resolve({ json: () => Promise.resolve(drinksCarousel) });
+      }
     });
 
     const searchIcon = screen.queryByTestId(searchIconTestId);
@@ -111,8 +115,8 @@ describe('Foods page SearchBar tests', () => {
     userEvent.click(firstLetterRadio);
     userEvent.click(searchBtn);
 
-    const url = 'https://www.themealdb.com/api/json/v1/1/search.php?f=y';
-    await waitFor(() => expect(fetch).toBeCalledWith(url));
+    await waitFor(() => expect(fetch).toBeCalledWith(urlMeal));
+    expect(history.location.pathname).toBe('/foods/52871');
   });
   it('calls alert', () => {
     const { history } = renderWithRouterAndRedux(<App />);
@@ -132,57 +136,13 @@ describe('Foods page SearchBar tests', () => {
     userEvent.click(searchBtn);
     expect(alert).toBeCalledTimes(1);
   });
-});
-
-describe('Drinks page SearchBar tests', () => {
-  it('renders drinks search bar elements correctly', () => {
+  it('calls alert when api returns', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
-
-    history.push('/drinks');
-    const searchIcon = screen.queryByTestId(searchIconTestId);
-    userEvent.click(searchIcon);
-
-    const ingredientsRadio = screen.getByTestId(ingredientsRadioTestId);
-    const nameSearchRadio = screen.getByTestId(nameSearchRadioTestId);
-    const firstLetterRadio = screen.getByTestId(firstLetterRadioTestId);
-    const searchBtn = screen.getByTestId(searchBtnTestId);
-
-    expect(ingredientsRadio).toBeInTheDocument();
-    expect(nameSearchRadio).toBeInTheDocument();
-    expect(firstLetterRadio).toBeInTheDocument();
-    expect(searchBtn).toBeInTheDocument();
-  });
-  it('fetches drinks ingredient', async () => {
-    const { history } = renderWithRouterAndRedux(<App />);
-    history.push('/drinks');
+    history.push('/foods');
 
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(wineIngredientMock),
-    });
-
-    const searchIcon = screen.queryByTestId(searchIconTestId);
-    userEvent.click(searchIcon);
-
-    const searchInput = screen.getByTestId(searchInputTestId);
-    const ingredientsRadio = screen.getByRole('radio', { name: /ingredient/i });
-    const searchBtn = screen.getByTestId(searchBtnTestId);
-
-    userEvent.type(searchInput, 'wine');
-    userEvent.click(ingredientsRadio);
-    await waitFor(() => expect(ingredientsRadio).toHaveFocus());
-    userEvent.click(searchBtn);
-
-    const url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=wine';
-    await waitFor(() => expect(fetch).toBeCalledWith(url));
-  });
-  it('fetches drink recipes by name', async () => {
-    const { history } = renderWithRouterAndRedux(<App />);
-    history.push('/drinks');
-
-    jest.spyOn(global, 'fetch');
-    global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(orangeadeDrinksMock),
+      json: jest.fn().mockResolvedValue({ meals: null }),
     });
 
     const searchIcon = screen.queryByTestId(searchIconTestId);
@@ -192,55 +152,14 @@ describe('Drinks page SearchBar tests', () => {
     const nameSearchRadio = screen.getByTestId(nameSearchRadioTestId);
     const searchBtn = screen.getByTestId(searchBtnTestId);
 
+    userEvent.type(searchInput, 'avocadoz');
     userEvent.click(nameSearchRadio);
-    userEvent.type(searchInput, 'orangeade');
     userEvent.click(searchBtn);
-
-    const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=orangeade';
-    await waitFor(() => expect(fetch).toBeCalledWith(url));
-  });
-  it('fetches drink recipes by first letter', async () => {
-    const { history } = renderWithRouterAndRedux(<App />);
-    history.push('/drinks');
-
-    jest.spyOn(global, 'fetch');
-    global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(letterYDrinksMock),
-    });
-
-    const searchIcon = screen.queryByTestId(searchIconTestId);
-    userEvent.click(searchIcon);
-
-    const searchInput = screen.getByTestId(searchInputTestId);
-    const firstLetterRadio = screen.getByTestId(firstLetterRadioTestId);
-    const searchBtn = screen.getByTestId(searchBtnTestId);
-
-    userEvent.type(searchInput, 'y');
-    userEvent.click(firstLetterRadio);
-    await waitFor(() => expect(firstLetterRadio).toHaveFocus());
-    userEvent.click(searchBtn);
-
-    const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?f=y';
-    await waitFor(() => expect(fetch).toBeCalledWith(url));
-  });
-  it('calls alert', () => {
-    const { history } = renderWithRouterAndRedux(<App />);
-    history.push('/drinks');
-
-    const searchIcon = screen.queryByTestId(searchIconTestId);
-    userEvent.click(searchIcon);
-
-    const searchInput = screen.getByTestId(searchInputTestId);
-    const firstLetterRadio = screen.getByRole('radio', { name: /first letter/i });
-    const searchBtn = screen.getByTestId(searchBtnTestId);
 
     global.alert = jest.fn();
 
-    userEvent.click(firstLetterRadio);
-    userEvent.type(searchInput, 'ya');
-    userEvent.click(searchBtn);
-
-    expect(alert).toBeCalledTimes(1);
+    await waitFor(() => expect(alert).toBeCalledTimes(1));
+    // TODO verificar erro
   });
 });
 

@@ -202,6 +202,5 @@ export const letterYFoodsMock = {
       strCreativeCommonsConfirmed: null,
       dateModified: null,
     },
-    { mock: 'mock' },
   ],
 };
