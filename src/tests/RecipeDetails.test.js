@@ -170,4 +170,44 @@ describe('RecipeDetails page test drinks', () => {
     userEvent.click(btnStart);
     expect(history.location.pathname).toBe('/drinks/13501/in-progress');
   });
+
+  it('clicks share button', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+    history.push('/drinks/13501');
+
+    // copy = jest.fn();
+    // jest.spyOn(global, 'copy').mockImplementation(() => {});
+    // jest.mock('clipboard-copy');
+    // document.execCommand = jest.fn();
+
+    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+    // const shareBtn = await screen.findByTestId('share-btn');
+
+    // userEvent.click(shareBtn);
+    // expect(document.execCommand).toHaveBeenCalledWith('copy');
+  });
+
+  it('clicks favorite button', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+    history.push('/drinks/13501');
+
+    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+    const favoriteBtn = await screen.findByTestId('favorite-btn');
+
+    userEvent.click(favoriteBtn);
+    userEvent.click(favoriteBtn);
+  });
+
+  it('loads favorite recipe', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+
+    const favoriteRecipe = [{ id: '52977', type: 'food', nationality: 'Turkish', category: 'Side', alcoholicOrNot: '', name: 'Corba', image: 'https://www.themealdb.com/images/media/meals/58oia61564916529.jpg' }];
+    localStorage.clear();
+
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipe));
+
+    history.push('/drinks/13501');
+
+    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+  });
 });
