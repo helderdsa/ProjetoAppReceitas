@@ -52,8 +52,6 @@ describe('Login page test', () => {
 
     userEvent.click(button);
 
-    screen.logTestingPlaygroundURL();
-
     expect(history.location.pathname).toBe('/foods');
   });
 });

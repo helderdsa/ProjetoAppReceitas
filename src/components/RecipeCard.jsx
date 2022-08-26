@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 function RecipeCard({ recipeThumb, recipeName, index, url }) {
   const history = useHistory();
+
   return (
     <div
       data-testid={ `${index}-recipe-card` }
