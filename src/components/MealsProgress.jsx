@@ -143,6 +143,13 @@ function MealsProgress({ id }) {
     }
   };
 
+  const verify = (value) => {
+    const inProgressLocalStorage = JSON
+      .parse(localStorage.getItem('inProgressRecipes'));
+    const { meals } = inProgressLocalStorage;
+    return !!((ingredient && meals[id].includes(value)));
+  };
+
   return (
     <div>
       <h1>Progresso</h1>
@@ -181,11 +188,11 @@ function MealsProgress({ id }) {
               data-testid={ `${i}-ingredient-step` }
             >
               <input
-                onChange={ checkIngredient }
+                onClick={ checkIngredient }
                 type="checkbox"
                 name={ ingredientValue }
                 id={ i }
-                checked
+                checked={ () => verify(ingredientValue) }
               />
               {` ${ingredientValue} - ${measure}`}
             </label>
