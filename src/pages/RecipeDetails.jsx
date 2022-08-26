@@ -17,10 +17,30 @@ function RecipeDetails() {
   const inProgressKeys = inProgressPathname && Object.keys(inProgressPathname);
   const inProgress = inProgressKeys && inProgressKeys.some((recipe) => recipe === id);
 
+  const startOrContinueFood = () => {
+    const inProgressLocalStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (!inProgress) {
+      const { cocktails, meals } = inProgressLocalStorage;
+      meals[id] = [];
+      localStorage.setItem('inProgressRecipes', JSON.stringify({ cocktails, meals }));
+    }
+  };
+
+  const startOrContinueDrinks = () => {
+    const inProgressLocalStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (!inProgress) {
+      const { cocktails, meals } = inProgressLocalStorage;
+      cocktails[id] = [];
+      localStorage.setItem('inProgressRecipes', JSON.stringify({ cocktails, meals }));
+    }
+  };
+
   const redirectToInProgress = () => {
     if (pathname.includes('foods')) {
+      startOrContinueFood();
       history.push(`/foods/${id}/in-progress`);
     } else {
+      startOrContinueDrinks();
       history.push(`/drinks/${id}/in-progress`);
     }
   };
@@ -39,7 +59,7 @@ function RecipeDetails() {
             className="recipe-btn"
             onClick={ redirectToInProgress }
           >
-            {inProgress ? 'Continue Recipe' : 'Start Button'}
+            {inProgress ? 'Continue Recipe' : 'Start Recipe'}
           </button>)
       }
     </>
