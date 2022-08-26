@@ -16,7 +16,7 @@ afterEach(() => {
 });
 
 describe('FilterButtons Meals component test', () => {
-  it('renders all button on page', async () => {
+  it('renders all button on meals page', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
     history.push('/foods');
 
@@ -29,7 +29,7 @@ describe('FilterButtons Meals component test', () => {
 
     userEvent.click(allBtn);
   });
-  it('renders all button on page', async () => {
+  it('renders beef button on page', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
     history.push('/foods');
 
@@ -48,7 +48,7 @@ describe('FilterButtons Meals component test', () => {
 });
 
 describe('FilterButtons Drinks component test', () => {
-  it('renders all button on page', async () => {
+  it('renders all button on drinks page', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
     history.push('/drinks');
 
@@ -61,7 +61,7 @@ describe('FilterButtons Drinks component test', () => {
 
     userEvent.click(allBtn);
   });
-  it('renders all button on page', async () => {
+  it('renders cocktail button on page', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
     history.push('/drinks');
 

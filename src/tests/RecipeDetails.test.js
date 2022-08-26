@@ -47,6 +47,9 @@ describe('RecipeDetails page test', () => {
       if (url === drinksCarouselURL) {
         return Promise.resolve({ json: () => Promise.resolve(drinksCarousel) });
       }
+      if (url === 'https://www.themealdb.com/api/json/v1/1/search.php?s=') {
+        return Promise.resolve({ json: () => Promise.resolve(mealsCarouselMock) });
+      }
     });
   });
 
@@ -128,10 +131,23 @@ describe('RecipeDetails page test', () => {
     const btnStart = screen.queryByTestId(BTN_START_ID);
     expect(btnStart).not.toBeInTheDocument();
   });
+
+  it('click on carrousel', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+    history.push(foodsURL);
+
+    await waitFor(() => expect(fetch).toBeCalledWith(drinksCarouselURL));
+    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+
+    const carrouselItem = await screen.findByTestId('0-card-img');
+    userEvent.click(carrouselItem);
+    expect(history.location.pathname).toBe('/drinks/15997');
+  });
 });
 
 describe('RecipeDetails page test drinks', () => {
   beforeEach(() => {
+    // jest.clearAllMocks();
     jest.spyOn(global, 'fetch').mockImplementation((url) => {
       if (url === 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=13501') {
         return Promise.resolve({ json: () => Promise.resolve(ABCMock) });
