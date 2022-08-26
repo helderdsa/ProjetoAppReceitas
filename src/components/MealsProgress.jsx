@@ -19,6 +19,13 @@ function MealsProgress({ id }) {
   const [hasCopied, setHasCopied] = useState(false);
   const [favoritado, setFavoritado] = useState(false);
 
+  const verify = (value) => {
+    const inProgressLocalStorage = JSON
+      .parse(localStorage.getItem('inProgressRecipes'));
+    const { meals } = inProgressLocalStorage;
+    return !!((ingredient && meals[id].includes(value)));
+  };
+
   useEffect(() => {
     dispatch(fetchDetailsMeals(id));
   }, []);
@@ -50,7 +57,11 @@ function MealsProgress({ id }) {
       const measuresList = measuresNoFilter.filter((i) => i !== ' ' && i !== null);
 
       const ingredients = ingredientsList
-        .map((value, i) => ({ ingredientValue: value, measure: measuresList[i] }));
+        .map((value, i) => ({
+          ingredientValue: value,
+          measure: measuresList[i],
+          checked: verify(value),
+        }));
 
       setTitle(strMeal);
       setCategory(strCategory);
@@ -110,22 +121,6 @@ function MealsProgress({ id }) {
     setFavoritado(!favoritado);
   };
 
-  const checkIngredient = ({ target }) => {
-    if (target.checked) {
-      const inProgressLocalStorage = JSON
-        .parse(localStorage.getItem('inProgressRecipes'));
-      const { cocktails, meals } = inProgressLocalStorage;
-      meals[id].push(target.name);
-      localStorage.setItem('inProgressRecipes', JSON.stringify({ cocktails, meals }));
-    } else {
-      const inProgressLocalStorage = JSON
-        .parse(localStorage.getItem('inProgressRecipes'));
-      const { cocktails, meals } = inProgressLocalStorage;
-      meals[id].splice(meals[id].indexOf(target.name), 1);
-      localStorage.setItem('inProgressRecipes', JSON.stringify({ cocktails, meals }));
-    }
-  };
-
   const removeFromFavorites = () => {
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
     const index = favoriteRecipes.indexOf(favoriteRecipes
@@ -141,13 +136,6 @@ function MealsProgress({ id }) {
     } else {
       removeFromFavorites();
     }
-  };
-
-  const verify = (value) => {
-    const inProgressLocalStorage = JSON
-      .parse(localStorage.getItem('inProgressRecipes'));
-    const { meals } = inProgressLocalStorage;
-    return !!((ingredient && meals[id].includes(value)));
   };
 
   return (
@@ -180,19 +168,20 @@ function MealsProgress({ id }) {
       <p data-testid="instructions">{instructions}</p>
       <div>
         {ingredient && ingredient
-          .map(({ ingredientValue, measure }, i) => (
+          .map(({ ingredientValue, measure, checked }, i) => (
             <label
               className="check-ingredient"
               key={ i }
               htmlFor={ i }
               data-testid={ `${i}-ingredient-step` }
             >
+              {console.log(ingredient)}
               <input
-                onClick={ checkIngredient }
+                onChange={ checkIngredient }
                 type="checkbox"
                 name={ ingredientValue }
                 id={ i }
-                checked={ () => verify(ingredientValue) }
+                checked={ variavel }
               />
               {` ${ingredientValue} - ${measure}`}
             </label>

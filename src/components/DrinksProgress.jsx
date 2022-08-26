@@ -146,12 +146,12 @@ function DrinksProgress({ id }) {
     }
   };
 
-  const verify = (value) => {
-    const inProgressLocalStorage = JSON
-      .parse(localStorage.getItem('inProgressRecipes'));
-    const { meals } = inProgressLocalStorage;
-    return !!((ingredient && meals[id].includes(value)));
-  };
+  // const verify = (value) => {
+  //   const inProgressLocalStorage = JSON
+  //     .parse(localStorage.getItem('inProgressRecipes'));
+  //   const { meals } = inProgressLocalStorage;
+  //   return !!((ingredient && meals[id].includes(value)));
+  // };
 
   return (
     <div>
@@ -194,7 +194,6 @@ function DrinksProgress({ id }) {
                 type="checkbox"
                 name={ ingredientValue }
                 id={ i }
-                checked={ () => verify(ingredientValue) }
               />
               {` ${ingredientValue} - ${measure}`}
             </label>
