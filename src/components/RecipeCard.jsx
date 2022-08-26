@@ -9,7 +9,7 @@ function RecipeCard({ recipeThumb, recipeName, index, url }) {
     <div
       data-testid={ `${index}-recipe-card` }
       onClick={ () => history.push(url) }
-      onKeyPress={ () => {} }
+      onKeyPress
       role="button"
       tabIndex={ 0 }
     >

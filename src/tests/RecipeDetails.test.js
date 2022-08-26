@@ -53,6 +53,14 @@ describe('RecipeDetails page test', () => {
     });
   });
 
+  it('click on first meal', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+    history.push('/foods');
+
+    const firstMeal = await screen.findByTestId('0-card-img');
+    userEvent.click(firstMeal);
+  });
+
   it('render elements on page', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
     history.push(foodsURL);
