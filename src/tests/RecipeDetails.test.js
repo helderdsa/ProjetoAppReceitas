@@ -6,6 +6,7 @@ import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 import { lasagnaMock, ABCMock } from './helpers/detailsMocks';
 import drinksCarousel from './helpers/drinksCarouselMock';
 import mealsCarouselMock from './helpers/mealsCarouselMock';
+// import copy from 'clipboard-copy'
 
 const foodsURL = '/foods/52844';
 const IMG_ID = 'recipe-photo';
@@ -64,7 +65,6 @@ describe('RecipeDetails page test', () => {
   it('render elements on page', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
     history.push(foodsURL);
-
     // jest.spyOn(global, 'fetch');
     // global.fetch.mockImplementation((url) => {
     //   console.log(url);
@@ -164,7 +164,7 @@ describe('RecipeDetails page test', () => {
     history.push(foodsURL);
 
     await waitFor(() => expect(fetch).toBeCalledTimes(2));
-    const favoriteBtn = await screen.findByTestId('favorite-btn');
+    const favoriteBtn = await screen.findByTestId(FAVORITE_BTN_ID);
 
     userEvent.click(favoriteBtn);
     userEvent.click(favoriteBtn);
@@ -184,9 +184,10 @@ describe('RecipeDetails page test', () => {
   });
 });
 
+const drinksURL = '/drinks/13501';
+
 describe('RecipeDetails page test drinks', () => {
   beforeEach(() => {
-    // jest.clearAllMocks();
     jest.spyOn(global, 'fetch').mockImplementation((url) => {
       if (url === 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=13501') {
         return Promise.resolve({ json: () => Promise.resolve(ABCMock) });
@@ -199,11 +200,9 @@ describe('RecipeDetails page test drinks', () => {
 
   it('render elements on page', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
-    history.push('/drinks/13501');
+    history.push(drinksURL);
 
     await waitFor(() => expect(fetch).toBeCalledTimes(2));
-    // screen.logTestingPlaygroundURL();
-
     const btnStart = await screen.findByTestId('start-recipe-btn');
 
     userEvent.click(btnStart);
@@ -211,28 +210,26 @@ describe('RecipeDetails page test drinks', () => {
   });
 
   it('clicks share button', async () => {
-    const { history } = renderWithRouterAndRedux(<App />);
-    history.push('/drinks/13501');
-
-    // copy = jest.fn();
-    // jest.spyOn(global, 'copy').mockImplementation(() => {});
     // jest.mock('clipboard-copy');
+    // copy.mockImplementation(() => {});
+    const { history } = renderWithRouterAndRedux(<App />);
+    history.push(drinksURL);
+    // jest.spyOn(navigator.clipboard, 'copy').mockImplementation(() => {});
+    // copy = jest.fn();
+    // jest.mock('copy');
     // document.execCommand = jest.fn();
-
     await waitFor(() => expect(fetch).toBeCalledTimes(2));
-    // const shareBtn = await screen.findByTestId('share-btn');
-
-    // userEvent.click(shareBtn);
-    // expect(document.execCommand).toHaveBeenCalledWith('copy');
+    const shareBtn = await screen.findByTestId('share-btn');
+    userEvent.click(shareBtn);
+    // expect(navigator.clipboard.copy).toHaveBeenCalledWith('zxc');
   });
 
   it('clicks favorite button', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
-    history.push('/drinks/13501');
+    history.push(drinksURL);
 
     await waitFor(() => expect(fetch).toBeCalledTimes(2));
     const favoriteBtn = await screen.findByTestId('favorite-btn');
-
     userEvent.click(favoriteBtn);
     userEvent.click(favoriteBtn);
   });
@@ -245,7 +242,7 @@ describe('RecipeDetails page test drinks', () => {
 
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipe));
 
-    history.push('/drinks/13501');
+    history.push(drinksURL);
 
     await waitFor(() => expect(fetch).toBeCalledTimes(2));
   });
