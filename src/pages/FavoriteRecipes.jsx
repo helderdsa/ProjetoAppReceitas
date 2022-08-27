@@ -32,7 +32,7 @@ function FavoriteRecipes() {
         </button>
 
         {
-          favoriteRecipes.map((recipe, index) => (
+          favoriteRecipes && favoriteRecipes.map((recipe, index) => (
             <FavoriteCards
               index={ index }
               name={ recipe.name }
