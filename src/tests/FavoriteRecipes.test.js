@@ -1,5 +1,6 @@
 import { screen } from '@testing-library/react';
 import React from 'react';
+import userEvent from '@testing-library/user-event';
 import FavoriteRecipes from '../pages/FavoriteRecipes';
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 
@@ -17,5 +18,25 @@ describe('Favorite Recipes page test', () => {
 
     expect(img0).toBeInTheDocument();
     expect(img1).toBeInTheDocument();
+  });
+  it('tests buttons', () => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipesMock));
+    renderWithRouterAndRedux(<FavoriteRecipes />);
+
+    const allBtn = screen.getByTestId('filter-by-all-btn');
+    const foodBtn = screen.getByTestId('filter-by-food-btn');
+    const drinksBtn = screen.getByTestId('filter-by-drink-btn');
+
+    expect(allBtn).toBeInTheDocument();
+    expect(foodBtn).toBeInTheDocument();
+    expect(drinksBtn).toBeInTheDocument();
+
+    userEvent.click(foodBtn);
+    userEvent.click(drinksBtn);
+    userEvent.click(allBtn);
+
+    const favoriteBtn = screen.getByTestId('0-horizontal-favorite-btn');
+
+    userEvent.click(favoriteBtn);
   });
 });
