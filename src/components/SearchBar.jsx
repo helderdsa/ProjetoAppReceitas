@@ -10,10 +10,11 @@ function SearchBar({ currentPath }) {
   const drinks = useSelector((state) => state.drinksReducer.drinks);
   const dispatch = useDispatch();
   const history = useHistory();
+  const errorRecipes = 'Sorry, we haven\'t found any recipes for these filters.';
 
   useEffect(() => {
     if (meals === null) {
-      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      global.alert(errorRecipes);
     } else if (meals.length === 1) {
       const { idMeal } = meals[0];
       history.push(`/foods/${idMeal}`);
@@ -22,7 +23,7 @@ function SearchBar({ currentPath }) {
 
   useEffect(() => {
     if (drinks === null) {
-      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      global.alert(errorRecipes);
     } else if (drinks.length === 1) {
       const { idDrink } = drinks[0];
       history.push(`/drinks/${idDrink}`);
@@ -44,6 +45,13 @@ function SearchBar({ currentPath }) {
       if (filter === 'f' && searchValue.length > 1) {
         global.alert('Your search must have only 1 (one) character');
       }
+    }
+  };
+
+  const handleClick = () => {
+    createApiUrl(currentPath);
+    if (drinks === null) {
+      global.alert(errorRecipes);
     }
   };
 
@@ -88,7 +96,7 @@ function SearchBar({ currentPath }) {
       </label>
       <button
         type="button"
-        onClick={ () => createApiUrl(currentPath) }
+        onClick={ handleClick }
         data-testid="exec-search-btn"
       >
         Search

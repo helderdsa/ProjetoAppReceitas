@@ -8,6 +8,7 @@ import drinksCarousel from './helpers/drinksCarouselMock';
 import mealsCarouselMock from './helpers/mealsCarouselMock';
 // import copy from 'clipboard-copy'
 
+const fetchCalls = 3;
 const foodsURL = '/foods/52844';
 const IMG_ID = 'recipe-photo';
 const SHARE_BTN_ID = 'share-btn';
@@ -80,7 +81,7 @@ describe('RecipeDetails page test', () => {
     //   };
     // });
     await waitFor(() => expect(fetch).toBeCalledWith(drinksCarouselURL));
-    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+    await waitFor(() => expect(fetch).toBeCalledTimes(fetchCalls));
 
     const img = await screen.findByTestId(IMG_ID);
     const btnShare = await screen.findByTestId(SHARE_BTN_ID);
@@ -108,7 +109,7 @@ describe('RecipeDetails page test', () => {
     history.push(foodsURL);
 
     await waitFor(() => expect(fetch).toBeCalledWith(drinksCarouselURL));
-    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+    await waitFor(() => expect(fetch).toBeCalledTimes(fetchCalls));
 
     const btnStart = await screen.findByTestId(BTN_START_ID);
 
@@ -122,7 +123,7 @@ describe('RecipeDetails page test', () => {
     history.push(foodsURL);
 
     await waitFor(() => expect(fetch).toBeCalledWith(drinksCarouselURL));
-    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+    await waitFor(() => expect(fetch).toBeCalledTimes(fetchCalls));
 
     const btnStart = await screen.findByTestId(BTN_START_ID);
     expect(btnStart).toHaveTextContent(/continue recipe/i);
@@ -134,7 +135,7 @@ describe('RecipeDetails page test', () => {
     history.push(foodsURL);
 
     await waitFor(() => expect(fetch).toBeCalledWith(drinksCarouselURL));
-    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+    await waitFor(() => expect(fetch).toBeCalledTimes(fetchCalls));
 
     const btnStart = screen.queryByTestId(BTN_START_ID);
     expect(btnStart).not.toBeInTheDocument();
@@ -145,7 +146,7 @@ describe('RecipeDetails page test', () => {
     history.push(foodsURL);
 
     await waitFor(() => expect(fetch).toBeCalledWith(drinksCarouselURL));
-    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+    await waitFor(() => expect(fetch).toBeCalledTimes(fetchCalls));
 
     const carrouselItem = await screen.findByTestId('0-card-img');
     userEvent.click(carrouselItem);
@@ -155,7 +156,7 @@ describe('RecipeDetails page test', () => {
   it('clicks share button', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
     history.push(foodsURL);
-    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+    await waitFor(() => expect(fetch).toBeCalledTimes(fetchCalls));
     // TODO
   });
 
@@ -163,7 +164,7 @@ describe('RecipeDetails page test', () => {
     const { history } = renderWithRouterAndRedux(<App />);
     history.push(foodsURL);
 
-    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+    await waitFor(() => expect(fetch).toBeCalledTimes(fetchCalls));
     const favoriteBtn = await screen.findByTestId(FAVORITE_BTN_ID);
 
     userEvent.click(favoriteBtn);
@@ -180,7 +181,7 @@ describe('RecipeDetails page test', () => {
 
     history.push(foodsURL);
 
-    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+    await waitFor(() => expect(fetch).toBeCalledTimes(fetchCalls));
   });
 });
 
@@ -202,7 +203,7 @@ describe('RecipeDetails page test drinks', () => {
     const { history } = renderWithRouterAndRedux(<App />);
     history.push(drinksURL);
 
-    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+    await waitFor(() => expect(fetch).toBeCalledTimes(fetchCalls));
     const btnStart = await screen.findByTestId('start-recipe-btn');
 
     userEvent.click(btnStart);
@@ -218,7 +219,7 @@ describe('RecipeDetails page test drinks', () => {
     // copy = jest.fn();
     // jest.mock('copy');
     // document.execCommand = jest.fn();
-    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+    await waitFor(() => expect(fetch).toBeCalledTimes(fetchCalls));
     // const shareBtn = await screen.findByTestId('share-btn');
     // userEvent.click(shareBtn);
     // expect(navigator.clipboard.copy).toHaveBeenCalledWith('zxc');
@@ -228,7 +229,7 @@ describe('RecipeDetails page test drinks', () => {
     const { history } = renderWithRouterAndRedux(<App />);
     history.push(drinksURL);
 
-    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+    await waitFor(() => expect(fetch).toBeCalledTimes(fetchCalls));
     const favoriteBtn = await screen.findByTestId('favorite-btn');
     userEvent.click(favoriteBtn);
     userEvent.click(favoriteBtn);
@@ -244,6 +245,6 @@ describe('RecipeDetails page test drinks', () => {
 
     history.push(drinksURL);
 
-    await waitFor(() => expect(fetch).toBeCalledTimes(2));
+    await waitFor(() => expect(fetch).toBeCalledTimes(fetchCalls));
   });
 });
