@@ -14,8 +14,6 @@ function DoneCards({
   const tagsList = tags && tags.includes(',') ? tags.split(',') : [tags];
   console.log(tagsList);
 
-  console.log('tags', tagsList);
-
   const shareRecipe = () => {
     const num = 3000;
     if (type === 'food') {
@@ -59,7 +57,6 @@ function DoneCards({
             done in:
             {date}
           </h6>
-
           {
             tagsList.map((element, i) => (
               <h4
@@ -70,7 +67,6 @@ function DoneCards({
               </h4>
             ))
           }
-
           {name}
         </h3>
       </div>
