@@ -3,6 +3,7 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import FavoriteRecipes from '../pages/FavoriteRecipes';
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
+import App from '../App';
 
 const img0TestId = '0-horizontal-image';
 const img1TestId = '1-horizontal-image';
@@ -38,5 +39,27 @@ describe('Favorite Recipes page test', () => {
     const favoriteBtn = screen.getByTestId('0-horizontal-favorite-btn');
 
     userEvent.click(favoriteBtn);
+  });
+  it('tests redirect drinks', async () => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipesMock));
+    const { history } = renderWithRouterAndRedux(<App />);
+    history.push('/favorite-recipes');
+
+    const img0 = await screen.findByTestId(img0TestId);
+
+    userEvent.click(img0);
+
+    expect(history.location.pathname).toBe('/drinks/15997');
+  });
+  it('tests redirect foods', async () => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipesMock));
+    const { history } = renderWithRouterAndRedux(<App />);
+    history.push('/favorite-recipes');
+
+    const img1 = await screen.findByTestId(img1TestId);
+
+    userEvent.click(img1);
+
+    expect(history.location.pathname).toBe('/foods/53026');
   });
 });
