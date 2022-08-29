@@ -12,7 +12,7 @@ import App from '../App';
 // const instructionsTestId = 'instructions';
 // const finishBtnTestId = 'finish-recipe-btn';
 // to do test id steps
-const recipesInProgress = { cocktails: { 12668: [] }, meals: { 52977: [] } };
+const recipesInProgress = { cocktails: { 12668: [] }, meals: { 53060: [] } };
 const drinkRecipe = {
   idDrink: '12668',
   strDrink: 'Egg Cream',
@@ -66,6 +66,11 @@ const foodRecipe = {
   strCreativeCommonsConfirmed: null,
   dateModified: null,
 };
+const foodPathname = '/foods/53060/in-progress';
+const drinksPathname = '/drinks/12668/in-progress';
+const recipeImg = 'recipe-photo';
+const firstIngredient = '1-ingredient-step';
+const secondIngredient = '2-ingredient-step';
 
 describe('Login page test', () => {
   it('checks localStorage', async () => {
@@ -78,10 +83,11 @@ describe('Login page test', () => {
         },
       },
     });
-    history.push('/drinks/12668/in-progress');
+    history.push(drinksPathname);
   });
 
   it('checks localStorage for foods', async () => {
+    localStorage.removeItem('inProgressRecipes');
     const { history } = renderWithRouterAndRedux(<App />, {
       initialState: {
         detailsReducer: {
@@ -89,10 +95,10 @@ describe('Login page test', () => {
         },
       },
     });
-    history.push('/foods/52977/in-progress');
+    history.push(foodPathname);
   });
 
-  it('render elements on page', async () => {
+  it('render elements on drinks page check list', async () => {
     localStorage.setItem('inProgressRecipes', JSON.stringify(recipesInProgress));
     const { history } = renderWithRouterAndRedux(<App />, {
       initialState: {
@@ -101,14 +107,14 @@ describe('Login page test', () => {
         },
       },
     });
-    history.push('/drinks/12668/in-progress');
+    history.push(drinksPathname);
 
-    const img = await screen.findByTestId('recipe-photo');
+    const img = await screen.findByTestId(recipeImg);
     expect(img).toBeInTheDocument();
 
     const check0 = screen.getByTestId('0-ingredient-step');
-    const check1 = screen.getByTestId('1-ingredient-step');
-    const check2 = screen.getByTestId('2-ingredient-step');
+    const check1 = screen.getByTestId(firstIngredient);
+    const check2 = screen.getByTestId(secondIngredient);
 
     userEvent.click(check0);
     userEvent.click(check1);
@@ -116,7 +122,77 @@ describe('Login page test', () => {
 
     const finishBtn = screen.getByTestId('finish-recipe-btn');
     userEvent.click(finishBtn);
+  });
 
-    screen.logTestingPlaygroundURL();
+  it('render elements on foods page check list', async () => {
+    localStorage.setItem('inProgressRecipes', JSON.stringify(recipesInProgress));
+    const { history } = renderWithRouterAndRedux(<App />, {
+      initialState: {
+        detailsReducer: {
+          details: [foodRecipe],
+        },
+      },
+    });
+    history.push(foodPathname);
+
+    const img = await screen.findByTestId(recipeImg);
+    expect(img).toBeInTheDocument();
+
+    const check0 = screen.getByTestId('0-ingredient-step');
+    const check1 = screen.getByTestId(firstIngredient);
+    const check2 = screen.getByTestId(secondIngredient);
+    const check3 = screen.getByTestId('3-ingredient-step');
+    const check4 = screen.getByTestId('4-ingredient-step');
+    const check5 = screen.getByTestId('5-ingredient-step');
+
+    userEvent.click(check0);
+    userEvent.click(check1);
+    userEvent.click(check2);
+    userEvent.click(check3);
+    userEvent.click(check4);
+    userEvent.click(check5);
+
+    const finishBtn = screen.getByTestId('finish-recipe-btn');
+    userEvent.click(finishBtn);
+  });
+
+  it('uncheck foods list', async () => {
+    localStorage.setItem('inProgressRecipes', JSON.stringify(recipesInProgress));
+    const { history } = renderWithRouterAndRedux(<App />, {
+      initialState: {
+        detailsReducer: {
+          details: [foodRecipe],
+        },
+      },
+    });
+    history.push(foodPathname);
+
+    const img = await screen.findByTestId(recipeImg);
+    expect(img).toBeInTheDocument();
+
+    const check1 = screen.getByTestId('1-ingredient-step');
+
+    userEvent.click(check1);
+    userEvent.click(check1);
+  });
+
+  it('uncheck drinks list', async () => {
+    localStorage.setItem('inProgressRecipes', JSON.stringify(recipesInProgress));
+    const { history } = renderWithRouterAndRedux(<App />, {
+      initialState: {
+        detailsReducer: {
+          details: [drinkRecipe],
+        },
+      },
+    });
+    history.push(drinksPathname);
+
+    const img = await screen.findByTestId(recipeImg);
+    expect(img).toBeInTheDocument();
+
+    const check2 = screen.getByTestId(secondIngredient);
+
+    userEvent.click(check2);
+    userEvent.click(check2);
   });
 });
