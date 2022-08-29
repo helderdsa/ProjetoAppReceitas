@@ -48,7 +48,7 @@ function RecipeInProgress() {
   const onClick = () => {
     history.push('/done-recipes');
     const doneRecipes = JSON
-      .parse(localStorage.getItem('doneRecipes'));
+      .parse(localStorage.getItem('doneRecipes')) || [];
     if (pathname.includes('foods')) {
       const { strMeal, strCategory, strMealThumb, strArea, strTags } = details[0];
       localStorage.setItem('doneRecipes', JSON.stringify([...doneRecipes, {
@@ -60,7 +60,7 @@ function RecipeInProgress() {
         name: strMeal,
         image: strMealThumb,
         doneDate: date,
-        tags: strTags.split(','),
+        tags: strTags ? strTags.split(',') : '',
       },
       ]));
     } else {
@@ -74,7 +74,7 @@ function RecipeInProgress() {
         name: strDrink,
         image: strDrinkThumb,
         doneDate: date,
-        tags: strTags.split(','),
+        tags: strTags ? strTags.split(',') : '',
       },
       ]));
     }
