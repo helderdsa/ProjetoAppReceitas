@@ -51,14 +51,14 @@ function RecipeInProgress() {
       const { strMeal, strCategory, strMealThumb, strArea, strTags } = details[0];
       localStorage.setItem('doneRecipes', JSON.stringify([...doneRecipes, {
         id,
-        type: 'drink',
+        type: 'food',
         nationality: strArea,
         category: strCategory,
         alcoholicOrNot: '',
         name: strMeal,
         image: strMealThumb,
         doneDate: date,
-        tags: strTags,
+        tags: strTags.split(','),
       },
       ]));
     } else {
@@ -72,7 +72,7 @@ function RecipeInProgress() {
         name: strDrink,
         image: strDrinkThumb,
         doneDate: date,
-        tags: strTags,
+        tags: strTags.split(','),
       },
       ]));
     }
