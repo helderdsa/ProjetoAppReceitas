@@ -26,12 +26,14 @@ function RecipeInProgress() {
   const verify = (value) => {
     const inProgressLocalStorage = JSON
       .parse(localStorage.getItem('inProgressRecipes'));
-    if (pathname.includes('foods')) {
-      const { meals } = inProgressLocalStorage;
-      return ((meals[id].includes(value)));
+    if (inProgressLocalStorage) {
+      if (pathname.includes('foods')) {
+        const { meals } = inProgressLocalStorage;
+        return ((meals[id].includes(value)));
+      }
+      const { cocktails } = inProgressLocalStorage;
+      return ((cocktails[id].includes(value)));
     }
-    const { cocktails } = inProgressLocalStorage;
-    return ((cocktails[id].includes(value)));
   };
 
   const checkedUpdate = () => {
