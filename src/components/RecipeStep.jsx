@@ -1,24 +1,42 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 
-function RecipeStep({ ingredientValue, measure, checked, i }) {
+function RecipeStep({ ingredientValue, measure, checked, updateChecked, i }) {
   const { id } = useParams();
-  const [inputChecked, setInputChecked] = useState();
+  const [inputChecked, setInputChecked] = useState(checked);
+
+  const history = useHistory();
+  const { location: { pathname } } = history;
 
   const checkIngredient = ({ target }) => {
     setInputChecked(!inputChecked);
+    updateChecked();
     if (target.checked) {
       const inProgressLocalStorage = JSON
         .parse(localStorage.getItem('inProgressRecipes'));
+
       const { cocktails, meals } = inProgressLocalStorage;
-      meals[id].push(target.name);
+
+      if (pathname.includes('foods')) {
+        meals[id].push(target.name);
+      } else {
+        cocktails[id].push(target.name);
+      }
+
       localStorage.setItem('inProgressRecipes', JSON.stringify({ cocktails, meals }));
     } else {
       const inProgressLocalStorage = JSON
         .parse(localStorage.getItem('inProgressRecipes'));
+
       const { cocktails, meals } = inProgressLocalStorage;
-      meals[id].splice(meals[id].indexOf(target.name), 1);
+
+      if (pathname.includes('foods')) {
+        meals[id].splice(meals[id].indexOf(target.name), 1);
+      } else {
+        cocktails[id].splice(cocktails[id].indexOf(target.name), 1);
+      }
+
       localStorage.setItem('inProgressRecipes', JSON.stringify({ cocktails, meals }));
     }
   };
