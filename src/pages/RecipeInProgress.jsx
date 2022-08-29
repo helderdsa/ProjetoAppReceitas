@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import useDate from 'usedate';
 import { fetchDetailsMeals, fetchDetailsDrinks } from '../redux/actions';
 import RecipeStep from '../components/RecipeStep';
 import FavoriteandShareButton from '../components/FavoriteandShareButton';
 
 function RecipeInProgress() {
   const { id } = useParams();
+
+  const date = useDate('mm/dd/yyyy');
+
+  // console.log(date, 'date');
 
   const dispatch = useDispatch();
 
@@ -42,6 +47,37 @@ function RecipeInProgress() {
 
   const onClick = () => {
     history.push('/done-recipes');
+    const doneRecipes = JSON
+      .parse(localStorage.getItem('doneRecipes'));
+    if (pathname.includes('foods')) {
+      const { strMeal, strCategory, strMealThumb, strArea, strTags } = details[0];
+      localStorage.setItem('doneRecipes', JSON.stringify([...doneRecipes, {
+        id,
+        type: 'drink',
+        nationality: strArea,
+        category: strCategory,
+        alcoholicOrNot: '',
+        name: strMeal,
+        image: strMealThumb,
+        doneDate: date,
+        tags: strTags,
+      },
+      ]));
+    } else {
+      const { strDrink, strCategory, strDrinkThumb, strAlcoholic, strTags } = details[0];
+      localStorage.setItem('doneRecipes', JSON.stringify([...doneRecipes, {
+        id,
+        type: 'drink',
+        nationality: '',
+        category: strCategory,
+        alcoholicOrNot: strAlcoholic,
+        name: strDrink,
+        image: strDrinkThumb,
+        doneDate: date,
+        tags: strTags,
+      },
+      ]));
+    }
   };
 
   const verifyChecked = () => {
