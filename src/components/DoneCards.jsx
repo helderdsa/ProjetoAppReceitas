@@ -12,6 +12,7 @@ function DoneCards({
   const history = useHistory();
 
   const tagsList = tags && tags.includes(',') ? tags.split(',') : [tags];
+  console.log(tagsList);
 
   console.log('tags', tagsList);
 
@@ -58,14 +59,18 @@ function DoneCards({
             done in:
             {date}
           </h6>
-          {tagsList.map((tag, i) => (
-            <h4
-              key={ tag }
-              data-testid={ `${index}-${tag[i]}-horizontal-tag` }
-            >
-              {tag}
-            </h4>
-          ))}
+
+          {
+            tagsList.map((element, i) => (
+              <h4
+                key={ `${element}${i}` }
+                data-testid={ `${index}-${element}-horizontal-tag` }
+              >
+                {element}
+              </h4>
+            ))
+          }
+
           {name}
         </h3>
       </div>
