@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import DoneCards from '../components/DoneCards';
-import FavoriteCards from '../components/FavoriteCard';
 import Header from '../components/Header';
 
 function DoneRecipes() {
