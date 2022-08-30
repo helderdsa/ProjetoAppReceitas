@@ -11,8 +11,8 @@ function DoneCards({
   const [hasCopied, setHasCopied] = useState(false);
   const history = useHistory();
 
-  const tagsList = tags && tags.includes(',') ? tags.split(',') : [tags];
-  console.log(tagsList);
+  // const tagsList = tags && tags.includes(',') ? tags.split(',') : [tags];
+  // console.log('tagslist', tagsList);
 
   const shareRecipe = () => {
     const num = 3000;
@@ -58,7 +58,7 @@ function DoneCards({
             {date}
           </h6>
           {
-            tagsList.map((element, i) => (
+            tags && tags.map((element, i) => (
               <h4
                 key={ `${element}${i}` }
                 data-testid={ `${index}-${element}-horizontal-tag` }
