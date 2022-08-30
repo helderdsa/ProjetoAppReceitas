@@ -1,0 +1,52 @@
+.checkIngredients {
+  margin-bottom: 64px;
+}
+
+.recipeInProgress img {
+  width: 100%;
+}
+
+.recipeInProgress h5 {
+  padding: 4px;
+  text-align: center;
+  margin: 0;
+  font-weight: 600;
+  /* color: #faa307; */
+  top: 0;
+  position: fixed;
+  width: 336px;
+  background-color: #faa307;
+  border-radius: 8px;
+  box-shadow: black 2px 2px;
+  height: 32px;
+  margin: 12px;
+  padding: 6px;
+  font-weight: 600;
+}
+
+.finish-recipe-btn {
+  bottom: 0;
+  display: flex;
+  justify-content: space-around;
+  position: fixed;
+  width: 336px;
+  background-color: #faa307;
+  border-radius: 8px;
+  box-shadow: black 2px 2px;
+  height: 32px;
+  margin: 12px;
+  padding: 6px;
+  font-weight: 600;
+}
+
+.finish-recipe-btn:disabled {
+  cursor: not-allowed;
+}
+
+.detailTitle > div > button > img {
+  height: 26px;
+}
+
+.checkIngredients {
+  margin-left: 12px;
+}

@@ -106,6 +106,7 @@ function RecipeDetails() {
           title="YouTube video player"
           allowFullScreen
         />}
+        <h4>Recommended</h4>
         <Carousel />
       </div>
       <StartOrContinueButton />
