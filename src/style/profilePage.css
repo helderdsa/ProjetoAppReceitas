@@ -1,0 +1,14 @@
+.profile-body {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.profile-body button{
+  background-color: #faa307;
+  border-radius: 4px;
+  box-shadow: black 3px 3px;
+  font-size: 32px;
+  font-weight: 600;
+  margin: 24px 8px;
+}
