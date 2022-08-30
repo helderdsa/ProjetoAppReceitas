@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
+import '../style/header.css';
 
 function Header() {
   const history = useHistory();
@@ -27,46 +28,48 @@ function Header() {
 
   return (
     <header>
-      <button
-        type="button"
-        onClick={ () => history.push('/profile') }
-      >
-        <img
-          src={ profileIcon }
-          alt="profile icon"
-          data-testid="profile-top-btn"
-        />
-      </button>
+      <div className="header-body">
+        <button
+          type="button"
+          onClick={ () => history.push('/profile') }
+        >
+          <img
+            src={ profileIcon }
+            alt="profile icon"
+            data-testid="profile-top-btn"
+          />
+        </button>
 
-      <h1 data-testid="page-title">
+        <h1 data-testid="page-title">
+          {
+            verifyPathname()
+          }
+        </h1>
+
         {
-          verifyPathname()
+          (pathname === '/drinks' || pathname === '/foods')
+            ? (
+              <button
+                type="button"
+                onClick={ () => setSearchBar(!searchBar) }
+              >
+                <img
+                  src={ searchIcon }
+                  alt="search icon"
+                  data-testid="search-top-btn"
+                />
+              </button>
+
+            )
+            : (
+              <div />
+            )
         }
-      </h1>
-
-      {
-        (pathname === '/drinks' || pathname === '/foods')
-          ? (
-            <button
-              type="button"
-              onClick={ () => setSearchBar(!searchBar) }
-            >
-              <img
-                src={ searchIcon }
-                alt="search icon"
-                data-testid="search-top-btn"
-              />
-            </button>
-
-          )
-          : (
-            <div />
-          )
-      }
+      </div>
       { searchBar
         ? <SearchBar currentPath={ pathname } />
         : null}
-
+      <hr />
     </header>
   );
 }

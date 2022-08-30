@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { fetchDrinks, fetchMeals } from '../redux/actions';
+import '../style/searchBar.css';
 
 function SearchBar({ currentPath }) {
   const [searchValue, setSearchValue] = useState('');
@@ -56,51 +57,56 @@ function SearchBar({ currentPath }) {
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="search recipe"
-        value={ searchValue }
-        onChange={ ({ target }) => setSearchValue(target.value) }
-        data-testid="search-input"
-      />
-      <label htmlFor="radio-ingredient">
-        Ingredient
+    <div className="search-bar-body">
+      <div className="search-group">
         <input
-          id="radio-ingredient"
-          type="radio"
-          name="search-filter"
-          value="i"
-          data-testid="ingredient-search-radio"
+          type="text"
+          placeholder="search recipe"
+          value={ searchValue }
+          onChange={ ({ target }) => setSearchValue(target.value) }
+          className="input-bar"
+          data-testid="search-input"
         />
-      </label>
-      <label htmlFor="radio-name">
-        Name
-        <input
-          id="radio-name"
-          type="radio"
-          name="search-filter"
-          value="s"
-          data-testid="name-search-radio"
-        />
-      </label>
-      <label htmlFor="first-letter-radio">
-        First letter
-        <input
-          id="first-letter-radio"
-          type="radio"
-          name="search-filter"
-          value="f"
-          data-testid="first-letter-search-radio"
-        />
-      </label>
-      <button
-        type="button"
-        onClick={ handleClick }
-        data-testid="exec-search-btn"
-      >
-        Search
-      </button>
+        <button
+          type="button"
+          onClick={ handleClick }
+          data-testid="exec-search-btn"
+        >
+          Search
+        </button>
+      </div>
+      <div className="radio-group">
+        <label htmlFor="radio-ingredient">
+          Ingredient
+          <input
+            id="radio-ingredient"
+            type="radio"
+            name="search-filter"
+            value="i"
+            data-testid="ingredient-search-radio"
+          />
+        </label>
+        <label htmlFor="radio-name">
+          Name
+          <input
+            id="radio-name"
+            type="radio"
+            name="search-filter"
+            value="s"
+            data-testid="name-search-radio"
+          />
+        </label>
+        <label htmlFor="first-letter-radio">
+          First letter
+          <input
+            id="first-letter-radio"
+            type="radio"
+            name="search-filter"
+            value="f"
+            data-testid="first-letter-search-radio"
+          />
+        </label>
+      </div>
     </div>
   );
 }

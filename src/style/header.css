@@ -1,0 +1,17 @@
+.header-body {
+  display: flex;
+  justify-content: space-around;
+  margin: 8px 0px;
+}
+
+.header-body h1 {
+  color: #faa307;
+  font-family: Oleo Script Swash Caps , cursive;
+  text-align: center;
+  text-shadow: black 2px 2px;
+}
+
+.header-body button {
+  border-radius: 100px;
+  width: 56px;
+}

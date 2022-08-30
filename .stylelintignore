@@ -1,3 +1,4 @@
 src/index.css
+src/style/
 cypress/*
 coverage/*
