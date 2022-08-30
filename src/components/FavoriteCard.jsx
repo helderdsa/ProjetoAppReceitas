@@ -33,7 +33,7 @@ function FavoriteCards({
   };
 
   return (
-    <div>
+    <div className="favorite-card">
       <div
         onClick={ redirectToDetails }
         onKeyPress={ () => {} }
@@ -55,9 +55,9 @@ function FavoriteCards({
           {name}
         </h3>
       </div>
-
       <button
         type="button"
+        className="button-share"
         onClick={ shareRecipe }
       >
         <img
@@ -69,6 +69,7 @@ function FavoriteCards({
       </button>
       <button
         type="button"
+        className="button-farovite"
         onClick={ removeFavorite }
       >
         <img
@@ -78,7 +79,6 @@ function FavoriteCards({
           data-testid={ `${index}-horizontal-favorite-btn` }
         />
       </button>
-
     </div>
   );
 }
