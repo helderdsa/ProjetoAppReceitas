@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import CarouselCard from './CarouselCard';
 import { fetchDrinks, fetchMeals } from '../services/fetch';
-import './Carousel.css';
 
 function Carousel() {
   const [carousel, setCarousel] = useState();

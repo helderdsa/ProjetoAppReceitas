@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import './Carousel.css';
 
 function CarouselCard({ recipeThumb, recipeName, index, url, category }) {
   const history = useHistory();

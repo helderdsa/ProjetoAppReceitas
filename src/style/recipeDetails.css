@@ -17,6 +17,12 @@
   text-decoration: none;
 }
 
+.instructionsContainer iframe {
+  border-radius: 8px;
+  box-shadow: #faa307 3px 3px;
+  width: 100%;
+}
+
 .instructions {
   border: #faa307 1px solid;
   border-radius: 8px;
@@ -46,6 +52,10 @@
   width: 36px;
 }
 
+.carousel p {
+  margin: 0;
+}
+
 .instructionsContainer p:nth-of-type( 1 ) {
   color: gray;
 }
@@ -68,3 +78,23 @@
 .check-ingredient {
   display: block;
 }
+
+.carousel {
+  display: flex;
+  gap: 12px;
+  margin: 16px 0;
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.carousel-card {
+  background-color: aqua;
+  border-radius: 8px;
+}
+
+.carousel-card img {
+  border-radius: 8px 8px 0 0;
+  height: 165px;
+  width: 165px;
+}
+
