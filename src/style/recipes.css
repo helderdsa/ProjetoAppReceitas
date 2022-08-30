@@ -1,0 +1,46 @@
+.fitlerBtns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: space-around;
+  margin: 12px 4px;
+
+}
+
+.fitlerBtns button {
+  background-color: #faa307;
+  border-radius: 4px;
+  box-shadow: black 2px 2px;
+  flex-basis: 30vw;
+  font-size: 16px;
+  font-weight: 600;
+  max-height: 32px;
+  max-width: 108px;
+  overflow: hidden;
+  padding: 4px;
+  text-overflow: ellipsis;
+}
+
+.cardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  font-family: Rubik , sans-serif;
+  font-weight: 600;
+  justify-content: space-evenly;
+}
+
+.recipeCard {
+  border-radius: 4px;
+  box-shadow: black 2px 2px;
+  flex-basis: 43%;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.recipeCard img {
+  width: 100%;
+}
+
+.recipeCard p {
+  margin-bottom: 0;
+}

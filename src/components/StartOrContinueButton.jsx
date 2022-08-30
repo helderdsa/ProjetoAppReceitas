@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import '../pages/RecipeDetails.css';
 
 function StartOrContinueButton() {
   const { id } = useParams();
