@@ -107,8 +107,8 @@ function RecipeDetails() {
           allowFullScreen
         />}
         <Carousel />
-        <StartOrContinueButton />
       </div>
+      <StartOrContinueButton />
     </div>
   );
 }
