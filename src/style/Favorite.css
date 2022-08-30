@@ -35,6 +35,7 @@
   margin-bottom: 16px;
   text-align: center;
   padding: 4px;
+  border: 1px solid black;
 }
 
 .favorite-card  img {
@@ -43,8 +44,16 @@
 
 .button-share {
     margin-right: 4px;
+    padding: 4px;
+    border-radius: 4px;
+    background-color: #faa307;
+    width: 36px;
 }
 
 .button-farovite {
     margin-left: 4px;
+    padding: 4px;
+    border-radius: 4px;
+    background-color: #faa307;
+    width: 36px;
 }
