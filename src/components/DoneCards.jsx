@@ -34,7 +34,7 @@ function DoneCards({
   };
 
   return (
-    <div>
+    <div className="done-recipe-card">
       <div
         onClick={ redirectToDetails }
         onKeyPress={ () => {} }
@@ -52,28 +52,29 @@ function DoneCards({
             type === 'drink' ? alcoholicOrNot : `${nationality} - ${category}`
           }
         </p>
-        <h3 data-testid={ `${index}-horizontal-name` }>
-          <h6 data-testid={ `${index}-horizontal-done-date` }>
+        <p data-testid={ `${index}-horizontal-name` }>
+          <p data-testid={ `${index}-horizontal-done-date` }>
             done in:
             {date}
-          </h6>
+          </p>
           {
             tags && tags.map((element, i) => (
-              <h4
+              <p
                 key={ `${element}${i}` }
                 data-testid={ `${index}-${element}-horizontal-tag` }
               >
                 {element}
-              </h4>
+              </p>
             ))
           }
           {name}
-        </h3>
+        </p>
       </div>
 
       <button
         type="button"
         onClick={ shareRecipe }
+        className="share-done-recipe"
       >
         <img
           src={ shareIcon }
