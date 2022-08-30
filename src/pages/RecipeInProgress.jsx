@@ -60,7 +60,7 @@ function RecipeInProgress() {
         name: strMeal,
         image: strMealThumb,
         doneDate: date,
-        tags: strTags ? strTags.split(',') : '',
+        tags: strTags ? strTags.split(',') : [],
       },
       ]));
     } else {
@@ -74,7 +74,7 @@ function RecipeInProgress() {
         name: strDrink,
         image: strDrinkThumb,
         doneDate: date,
-        tags: strTags ? strTags.split(',') : '',
+        tags: strTags ? strTags.split(',') : [],
       },
       ]));
     }

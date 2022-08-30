@@ -76,17 +76,7 @@ const foodRecipeNoTag = {
   strTags: null,
   strYoutube: 'https://www.youtube.com/watch?v=YsJXZwE5pdY',
   strIngredient1: 'Filo Pastry',
-  strIngredient2: 'Minced Beef',
-  strIngredient3: 'Onion',
-  strIngredient4: 'Oil',
-  strIngredient5: 'Salt',
-  strIngredient6: 'Pepper',
   strMeasure1: '1 Packet',
-  strMeasure2: '150g',
-  strMeasure3: '150g',
-  strMeasure4: '40g',
-  strMeasure5: 'Dash',
-  strMeasure6: 'Dash',
   strSource: 'https://www.visit-croatia.co.uk/croatian-cuisine/croatian-recipes/',
   strImageSource: null,
   strCreativeCommonsConfirmed: null,
@@ -95,6 +85,7 @@ const foodRecipeNoTag = {
 const foodPathname = '/foods/53060/in-progress';
 const drinksPathname = '/drinks/12668/in-progress';
 const recipeImg = 'recipe-photo';
+const zeroIngredient = '0-ingredient-step';
 const firstIngredient = '1-ingredient-step';
 const secondIngredient = '2-ingredient-step';
 
@@ -124,7 +115,7 @@ describe('Login page test', () => {
     history.push(foodPathname);
   });
 
-  it('checks localStorage for foods', async () => {
+  it('checks for foods with no tag', async () => {
     localStorage.removeItem('inProgressRecipes');
     const { history } = renderWithRouterAndRedux(<App />, {
       initialState: {
@@ -134,6 +125,12 @@ describe('Login page test', () => {
       },
     });
     history.push(foodPathname);
+
+    const img = await screen.findByTestId(recipeImg);
+    expect(img).toBeInTheDocument();
+
+    const check0 = screen.getByTestId(zeroIngredient);
+    userEvent.click(check0);
 
     const finishBtn = screen.getByTestId(finishBtnTestId);
     userEvent.click(finishBtn);
@@ -153,7 +150,7 @@ describe('Login page test', () => {
     const img = await screen.findByTestId(recipeImg);
     expect(img).toBeInTheDocument();
 
-    const check0 = screen.getByTestId('0-ingredient-step');
+    const check0 = screen.getByTestId(zeroIngredient);
     const check1 = screen.getByTestId(firstIngredient);
     const check2 = screen.getByTestId(secondIngredient);
 
@@ -179,7 +176,7 @@ describe('Login page test', () => {
     const img = await screen.findByTestId(recipeImg);
     expect(img).toBeInTheDocument();
 
-    const check0 = screen.getByTestId('0-ingredient-step');
+    const check0 = screen.getByTestId(zeroIngredient);
     const check1 = screen.getByTestId(firstIngredient);
     const check2 = screen.getByTestId(secondIngredient);
     const check3 = screen.getByTestId('3-ingredient-step');
