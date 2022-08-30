@@ -12,11 +12,11 @@ function RecipeCard({ recipeThumb, recipeName, index, url }) {
       onKeyPress
       role="button"
       tabIndex={ 0 }
+      className="recipeCard"
     >
       <img
         src={ recipeThumb }
         alt={ recipeName }
-        width="100px"
         data-testid={ `${index}-card-img` }
       />
       <p data-testid={ `${index}-card-name` }>{ recipeName }</p>

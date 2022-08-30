@@ -34,9 +34,9 @@ function Recipes() {
     return (
       <>
         <Header />
-        <div>
-          {categoriesMeals.meals.length > 0
+        {categoriesMeals.meals.length > 0
       && <FilterButtons categories={ categoriesMeals.meals } isFood />}
+        <div className="cardsContainer">
           {(dataMeals !== null && dataMeals.length > 0) && dataMeals
             .slice(0, arrayLength)
             .map((recipe, index) => (<RecipeCard
@@ -55,9 +55,9 @@ function Recipes() {
     return (
       <>
         <Header />
-        <div>
-          {categoriesDrinks.drinks.length > 0
+        {categoriesDrinks.drinks.length > 0
       && <FilterButtons categories={ categoriesDrinks.drinks } isFood={ false } />}
+        <div className="cardsContainer">
           {(dataDrinks !== null && dataDrinks.length > 0) && dataDrinks
             .slice(0, arrayLength)
             .map((recipe, index) => (<RecipeCard
