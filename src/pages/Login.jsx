@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import '../style/login.css';
 
 function Login() {
   const [emailData, setEmailData] = useState('');
@@ -35,36 +36,39 @@ function Login() {
   }, [emailData, passwordData]);
 
   return (
-    <div>
-      <h1>Login</h1>
-      <label htmlFor="emailInput">
-        Email
-        <input
-          type="email"
-          id="emailInput"
-          data-testid="email-input"
-          value={ emailData }
-          onChange={ ({ target }) => setEmailData(target.value) }
-        />
-      </label>
-      <label htmlFor="passwordInput">
-        Password
-        <input
-          type="password"
-          id="passwordInput"
-          data-testid="password-input"
-          value={ passwordData }
-          onChange={ ({ target }) => setPasswordData(target.value) }
-        />
-      </label>
-      <button
-        type="button"
-        disabled={ enabledBtn }
-        data-testid="login-submit-btn"
-        onClick={ submitUser }
-      >
-        Enter
-      </button>
+    <div className="login-body">
+      <div className="login-form">
+        <h1>Login</h1>
+        <label htmlFor="emailInput" className="login-input">
+          Email
+          <input
+            type="email"
+            id="emailInput"
+            data-testid="email-input"
+            value={ emailData }
+            onChange={ ({ target }) => setEmailData(target.value) }
+          />
+        </label>
+        <label htmlFor="passwordInput" className="login-input">
+          Password
+          <input
+            type="password"
+            id="passwordInput"
+            data-testid="password-input"
+            value={ passwordData }
+            onChange={ ({ target }) => setPasswordData(target.value) }
+          />
+        </label>
+        <button
+          type="button"
+          disabled={ enabledBtn }
+          data-testid="login-submit-btn"
+          onClick={ submitUser }
+        >
+          Enter
+        </button>
+      </div>
+      <footer>Arrabiata Corporation Ⓒ 2022</footer>
     </div>
   );
 }

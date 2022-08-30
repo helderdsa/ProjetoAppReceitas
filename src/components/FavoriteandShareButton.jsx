@@ -113,6 +113,7 @@ function FavoriteandShareButton() {
           src={ favoritado ? blackFavoriteIcon : whiteFavoriteIcon }
           alt="favorite icon"
           data-testid="favorite-btn"
+          style={ { backgroudColor: 'white' } }
         />
       </button>
     </div>
