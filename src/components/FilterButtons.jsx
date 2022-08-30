@@ -34,7 +34,7 @@ function FilterButtons({ categories, isFood }) {
   };
 
   return (
-    <div>
+    <div className="fitlerBtns">
       <button
         type="button"
         data-testid="All-category-filter"

@@ -1,0 +1,18 @@
+.fitlerBtns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: space-around;
+  margin: 12px 4px;
+
+}
+
+.fitlerBtns button {
+  background-color: #faa307;
+  border-radius: 4px;
+  box-shadow: black 2px 2px;
+  flex-basis: 30vw;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 4px;
+}

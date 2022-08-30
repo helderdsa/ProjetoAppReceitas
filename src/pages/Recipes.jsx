@@ -7,6 +7,7 @@ import FilterButtons from '../components/FilterButtons';
 import { fetchMeals, fetchCategoriesMeals,
   fetchDrinks, fetchCategoriesDrinks } from '../redux/actions';
 import RecipeCard from '../components/RecipeCard';
+import '../style/recipes.css';
 
 function Recipes() {
   const history = useHistory();
