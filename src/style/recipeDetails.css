@@ -65,7 +65,14 @@
   display: flex;
   justify-content: space-around;
   position: fixed;
-  width: 100%;
+  width: 336px;
+  background-color: #faa307;
+  border-radius: 8px;
+  box-shadow: black 2px 2px;
+  height: 32px;
+  margin: 12px;
+  padding: 6px;
+  font-weight: 600;
 }
 
 .finish-recipe-btn {
@@ -82,19 +89,20 @@
 .carousel {
   display: flex;
   gap: 12px;
-  margin: 16px 0;
   overflow: hidden;
   overflow-x: auto;
 }
 
 .carousel-card {
-  background-color: aqua;
   border-radius: 8px;
+  box-shadow: #faa307 3px 3px;
+  border-radius: 8px;
+  margin: 0 0 40px 0;
+  text-align: center;
 }
 
 .carousel-card img {
   border-radius: 8px 8px 0 0;
-  height: 165px;
-  width: 165px;
+  height: 160px;
+  width: 160px;
 }
-

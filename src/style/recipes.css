@@ -3,7 +3,7 @@
   flex-wrap: wrap;
   gap: 8px;
   justify-content: space-around;
-  margin: 12px 4px;
+  margin: 12px 12px;
 
 }
 
@@ -11,7 +11,7 @@
   background-color: #faa307;
   border-radius: 4px;
   box-shadow: black 2px 2px;
-  flex-basis: 30vw;
+  flex-basis: 29vw;
   font-size: 16px;
   font-weight: 600;
   max-height: 32px;
@@ -31,7 +31,7 @@
 
 .recipeCard {
   border-radius: 4px;
-  box-shadow: black 2px 2px;
+  box-shadow: black 3px 3px;
   flex-basis: 43%;
   margin-bottom: 16px;
   text-align: center;
@@ -39,6 +39,7 @@
 
 .recipeCard img {
   width: 100%;
+  border-radius: 4px;
 }
 
 .recipeCard p {

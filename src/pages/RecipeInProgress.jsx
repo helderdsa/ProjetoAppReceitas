@@ -5,6 +5,7 @@ import useDate from 'usedate';
 import { fetchDetailsMeals, fetchDetailsDrinks } from '../redux/actions';
 import RecipeStep from '../components/RecipeStep';
 import FavoriteandShareButton from '../components/FavoriteandShareButton';
+import '../style/recipeInProgress.css';
 
 function RecipeInProgress() {
   const { id } = useParams();
@@ -170,25 +171,29 @@ function RecipeInProgress() {
   }, [details]);
 
   return (
-    <div>
-      <h1>Progresso</h1>
+    <div className="recipeInProgress">
+      <h5>Recipe In Progress</h5>
       <img src={ img } alt={ title } data-testid="recipe-photo" width="300px" />
-      <FavoriteandShareButton />
-      <h1 data-testid="recipe-title">{title}</h1>
-      <h3 data-testid="recipe-category">{categoryOrAlcoholic}</h3>
-      <p data-testid="instructions">{instructions}</p>
-      <div>
-        {ingredient && ingredient
-          .map(({ ingredientValue, measure, checked }, i) => (
-            <RecipeStep
-              key={ i }
-              ingredientValue={ ingredientValue }
-              measure={ measure }
-              checked={ checked }
-              updateChecked={ checkedUpdate }
-              i={ i }
-            />
-          ))}
+      <div className="instructionsContainer">
+        <div className="detailTitle">
+          <h1 data-testid="recipe-title">{title}</h1>
+          <FavoriteandShareButton />
+        </div>
+        <p data-testid="recipe-category">{categoryOrAlcoholic}</p>
+        <p data-testid="instructions" className="instructions">{instructions}</p>
+        <div className="checkIngredients">
+          {ingredient && ingredient
+            .map(({ ingredientValue, measure, checked }, i) => (
+              <RecipeStep
+                key={ i }
+                ingredientValue={ ingredientValue }
+                measure={ measure }
+                checked={ checked }
+                updateChecked={ checkedUpdate }
+                i={ i }
+              />
+            ))}
+        </div>
       </div>
       <button
         onClick={ onClick }
