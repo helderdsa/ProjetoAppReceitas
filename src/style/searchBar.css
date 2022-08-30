@@ -1,0 +1,26 @@
+.search-bar-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-group {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 8px;
+}
+
+.radio-group {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 8px;
+}
+
+.radio-group label input{
+  margin-left: 4px;
+}
+
+.input-bar{
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 4px;
+}
