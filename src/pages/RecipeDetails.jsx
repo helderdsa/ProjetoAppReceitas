@@ -5,6 +5,7 @@ import { fetchDetailsMeals, fetchDetailsDrinks } from '../redux/actions';
 import FavoriteandShareButton from '../components/FavoriteandShareButton';
 import StartOrContinueButton from '../components/StartOrContinueButton';
 import Carousel from '../components/Carousel';
+import '../style/recipeDetails.css';
 
 function RecipeDetails() {
   const { id } = useParams();
@@ -78,30 +79,36 @@ function RecipeDetails() {
   }, [details]);
 
   return (
-    <div>
-      <img src={ img } alt={ title } data-testid="recipe-photo" width="300px" />
-      <FavoriteandShareButton />
-      <h1 data-testid="recipe-title">{title}</h1>
-      <h3 data-testid="recipe-category">{categoryOrAlcoholic}</h3>
-      <p data-testid="instructions">{instructions}</p>
-      <ul>
-        {ingredient && ingredient
-          .map(({ ingredientValue, measure }, i) => (
-            <li data-testid={ `${i}-ingredient-name-and-measure` } key={ i }>
-              {`${ingredientValue} - ${measure}`}
-            </li>))}
-      </ul>
-      {pathname.includes('foods') && <iframe
-        data-testid="video"
-        width="230"
-        height="160"
-        src={ `https://www.youtube.com/embed/${movie}` }
-        frameBorder="0"
-        title="YouTube video player"
-        allowFullScreen
-      />}
-      <Carousel />
-      <StartOrContinueButton />
+    <div className="detailsContainer">
+      <img src={ img } alt={ title } data-testid="recipe-photo" />
+      <div className="instructionsContainer">
+        <div className="detailTitle">
+          <h1 data-testid="recipe-title">{title}</h1>
+          <FavoriteandShareButton />
+        </div>
+        <p data-testid="recipe-category">{categoryOrAlcoholic}</p>
+        <h4>Ingredients</h4>
+        <ul>
+          {ingredient && ingredient
+            .map(({ ingredientValue, measure }, i) => (
+              <li data-testid={ `${i}-ingredient-name-and-measure` } key={ i }>
+                {`${ingredientValue} - ${measure}`}
+              </li>))}
+        </ul>
+        <h4>Instructions</h4>
+        <p data-testid="instructions" className="instructions">{instructions}</p>
+        {pathname.includes('foods') && <iframe
+          data-testid="video"
+          width="230"
+          height="160"
+          src={ `https://www.youtube.com/embed/${movie}` }
+          frameBorder="0"
+          title="YouTube video player"
+          allowFullScreen
+        />}
+        <Carousel />
+        <StartOrContinueButton />
+      </div>
     </div>
   );
 }
