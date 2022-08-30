@@ -1,0 +1,50 @@
+.farovite-bory {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button-filter {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.button-filter button {
+  background-color: #faa307;
+  border-radius: 4px;
+  box-shadow: black 3px 3px;
+  font-size: 24px;
+  font-weight: 600;
+  padding: 4px;
+}
+
+.cards-container {
+    display: flex;
+  flex-wrap: wrap;
+  font-family: Rubik , sans-serif;
+  font-weight: 600;
+  justify-content: space-evenly;
+}
+
+.favorite-card {
+  border-radius: 4px;
+  box-shadow: black 2px 2px;
+  flex-basis: 43%;
+  margin-bottom: 16px;
+  text-align: center;
+  padding: 4px;
+}
+
+.favorite-card  img {
+  width: 100%;
+}
+
+.button-share {
+    margin-right: 4px;
+}
+
+.button-farovite {
+    margin-left: 4px;
+}

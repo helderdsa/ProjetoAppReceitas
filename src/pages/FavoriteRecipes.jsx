@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FavoriteCards from '../components/FavoriteCard';
 import Header from '../components/Header';
+import '../style/Favorite.css';
 
 function FavoriteRecipes() {
   const [allFavoriteRecipes, setAllFavoriteRecipes] = useState();
@@ -46,48 +47,49 @@ function FavoriteRecipes() {
   return (
     <>
       <Header />
-      <section>
-        <button
-          type="button"
-          data-testid="filter-by-all-btn"
-          onClick={ allFilter }
-        >
-          All
-        </button>
-        <button
-          type="button"
-          data-testid="filter-by-food-btn"
-          onClick={ filterMeals }
-        >
-          Food
-        </button>
-        <button
-          type="button"
-          data-testid="filter-by-drink-btn"
-          onClick={ filterDrinks }
-        >
-          Drinks
-        </button>
-
-        {
-          filteredRecipes && filteredRecipes.map((recipe, index) => (
-            <FavoriteCards
-              index={ index }
-              name={ recipe.name }
-              image={ recipe.image }
-              alcoholicOrNot={ recipe.alcoholicOrNot }
-              category={ recipe.category }
-              nationality={ recipe.nationality }
-              type={ recipe.type }
-              key={ recipe.id }
-              id={ recipe.id }
-              removeFavorite={ () => removeFromFavorites(recipe.id) }
-            />
-          ))
-        }
-
-      </section>
-
+      <div className="farovite-bory">
+        <section className="button-filter">
+          <button
+            type="button"
+            data-testid="filter-by-all-btn"
+            onClick={ allFilter }
+          >
+            All
+          </button>
+          <button
+            type="button"
+            data-testid="filter-by-food-btn"
+            onClick={ filterMeals }
+          >
+            Food
+          </button>
+          <button
+            type="button"
+            data-testid="filter-by-drink-btn"
+            onClick={ filterDrinks }
+          >
+            Drinks
+          </button>
+        </section>
+        <div className="cards-container">
+          {
+            filteredRecipes && filteredRecipes.map((recipe, index) => (
+              <FavoriteCards
+                index={ index }
+                name={ recipe.name }
+                image={ recipe.image }
+                alcoholicOrNot={ recipe.alcoholicOrNot }
+                category={ recipe.category }
+                nationality={ recipe.nationality }
+                type={ recipe.type }
+                key={ recipe.id }
+                id={ recipe.id }
+                removeFavorite={ () => removeFromFavorites(recipe.id) }
+              />
+            ))
+          }
+        </div>
+      </div>
     </>
   );
 }
