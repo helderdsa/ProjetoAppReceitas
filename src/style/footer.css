@@ -1,15 +1,17 @@
 footer {
-  background-color: #e85d04;
+  background-color: #faa307;
   bottom: 0;
   display: flex;
   justify-content: space-around;
   position: fixed;
   width: 100%;
+  padding: 4px;
 }
 
 footer button {
-  background-color: #faa307;
-  border-radius: 100px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: black 2px 2px;
   margin: 4px;
   padding: 8px;
 }
