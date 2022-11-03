@@ -8,6 +8,7 @@
   "dependencies": {
     "bootstrap": "^4.5.3",
     "clipboard-copy": "^4.0.1",
+    "gh-pages": "^4.0.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-bootstrap": "^2.4.0",
@@ -21,6 +22,7 @@
     "redux-thunk": "^2.4.1",
     "usedate": "^1.2.14"
   },
+  "homepage": "https://helderdsa.github.io/",
   "scripts": {
     "cy": "cypress run",
     "cy:open": "cypress open",
@@ -30,6 +32,8 @@
     "test-coverage": "react-scripts test --coverage --watchAll=false",
     "eject": "react-scripts eject",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js,.jsx",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "lint:styles": "npx stylelint '**/*.css'"
   },
   "eslintConfig": {
