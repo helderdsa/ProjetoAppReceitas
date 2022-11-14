@@ -1,10 +1,8 @@
-# :construction: README em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+# Projeto App de Receitas desenvolvido em grupo durante curso de desenvolvimento Fullstack na Trybe
+### Instruções de inicialização
+1. Fazer o clone do repositório em sua máquina
+2. Entrar no diretório que foi clonado
+3. Utilizar o comando “npm install”
+4. Inicializar o projeto com “npm start”
+5. Para fazer login insira um email válido no formato “exemplo@mail.com”
+6. E uma senha com mais de 7 digitos
