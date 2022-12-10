@@ -1,5 +1,6 @@
 # Projeto App de Receitas desenvolvido em grupo durante curso de desenvolvimento Fullstack na Trybe
 ### Instruções de inicialização
+[Link para acesso](https://dancing-naiad-b13c4d.netlify.app/)
 1. Fazer o clone do repositório em sua máquina
 2. Entrar no diretório que foi clonado
 3. Utilizar o comando “npm install”
